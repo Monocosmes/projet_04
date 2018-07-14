@@ -1,0 +1,37 @@
+section
+{
+	display: flex;
+	justify-content: space-between;
+}
+
+article
+{
+	width: 80%;
+	border: 1px black solid;
+}
+
+form
+{
+	display: flex;
+	flex-direction: column;
+}
+
+.separator
+{
+	width: 90%;
+	border-top: 1px black solid;
+	margin: 0 auto;
+}
+
+.chapters
+{
+	flex-wrap: wrap;
+}
+
+.chapter
+{
+	border: 1px black solid;
+	width: 20%;
+	margin: 15px;
+	padding: 10px;
+}
