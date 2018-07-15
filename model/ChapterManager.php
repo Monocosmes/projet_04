@@ -24,6 +24,7 @@ class ChapterManager extends Manager
     public function deleteChapter(Chapter $chapter)
     {
     	$this->db->exec('DELETE FROM chapter WHERE id = '.$chapter->getId());
+        // utiliser bindValue par sécurité
     }
 
     public function updateChapter(Chapter $chapter)
@@ -42,6 +43,8 @@ class ChapterManager extends Manager
     	$id = (int) $id;
 
     	$req = $this->db->query('SELECT id, authorId, title, content, creationDate, editDate, published FROM chapter WHERE id = '.$id);
+        // utiliser bindValue par sécurité
+
     	$data = $req->fetch(PDO::FETCH_ASSOC);
 
     	return new Chapter($data);
