@@ -8,16 +8,13 @@
 	</article>
 
 	<aside>
-		<?php
-			foreach($chapters as $chapter)
-			{
-				echo '<div>';
-				echo '<div>'.$chapter->getTitle().'</div>';
-				echo '<div>'.$chapter->getContent().'</div>';
-				echo '</div>';
-				echo '<div class="separator"></div>';
-			}
-		?>
+		<?php foreach($chapters as $chapter) :?>			
+			<div>
+				<div><a href="<?= HOST.'chapter.html/chapterId/'.$chapter->getId() ?>"><?= $chapter->getTitle() ?></a></div>
+				<div><?= $chapter->getContent() ?></div>
+			</div>
+			<div class="separator"></div>
+		<?php endforeach ?>
 	</aside>
 
 </section>

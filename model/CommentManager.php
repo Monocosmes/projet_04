@@ -10,19 +10,22 @@ class CommentManager extends Manager
      */
     public function addComment(Comment $comment)
     {
-    	$req = $this->db->prepare('INSERT INTO comment(chapterId, author, message, creationDate, authorIp, reported) VALUES(:chapterId, :author, :message, NOW(), :authorIp, :reported)');
+    	$req = $this->db->prepare('INSERT INTO comment(chapterId, author, message, creationDate, authorIp) VALUES(:chapterId, :author, :message, NOW(), :authorIp)');
         $req->bindValue(':chapterId', $comment->getChapterId(), PDO::PARAM_INT);
-    	$req->bindValue(':author', $comment->getAuthorId());
+    	$req->bindValue(':author', $comment->getAuthor());
     	$req->bindValue(':message', $comment->getMessage());
     	$req->bindValue(':authorIp', $comment->getAuthorIp());
-    	$req->bindValue(':reported', $comment->getReported());
 
     	$req->execute();
+
+        return $this->db->lastInsertId();
     }
 
     public function deleteComment(Comment $comment)
     {
-    	$this->db->exec('DELETE FROM comment WHERE id = '.$comment->getId());
+    	$req = $this->db->prepare('DELETE FROM comment WHERE id = :id');
+        $req->bindValue(':id', $comment->getId(), PDO::PARAM_INT);
+        $req->execute();
     }
 
     public function updateComment(Comment $comment)
@@ -38,24 +41,28 @@ class CommentManager extends Manager
 
     public function getComment($id)
     {
-    	$id = (int) $id;
-
-    	$req = $this->db->query('SELECT id, chapterId, author, message, creationDate, authorIp, reported FROM comment WHERE id = '.$id);
+    	$req = $this->db->prepare('SELECT id, chapterId, author, message, creationDate, authorIp, reported FROM comment WHERE id = :id');
+        $req->bindValue(':id', (int) $id, PDO::PARAM_INT);
+        $req->execute();
     	$data = $req->fetch(PDO::FETCH_ASSOC);
 
     	return new Comment($data);
     }
 
-    public function getAllComment()
+    public function getAllComments($chapterId)
     {
-    	$req = $this->db->query('SELECT id, chapterId, author, message, creationDate, authorIp, reported FROM comment ORDER BY creationDateDate DESC');
+    	$comments = null;
+
+        $req = $this->db->prepare('SELECT id, chapterId, author, message, creationDate, authorIp, reported FROM comment WHERE chapterId = :chapterId ORDER BY creationDate DESC');
+        $req->bindValue(':chapterId', $chapterId, PDO::PARAM_INT);
+        $req->execute();
 
     	while($data = $req->fetch(PDO::FETCH_ASSOC))
     	{
-    		$comment[] = new Comment($data);
+    		$comments[] = new Comment($data);
     	}
 
-    	return $comment;
+    	return $comments;
     }
 
     public function reportComment(Comment $comment)

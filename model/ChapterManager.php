@@ -23,7 +23,9 @@ class ChapterManager extends Manager
 
     public function deleteChapter(Chapter $chapter)
     {
-    	$this->db->exec('DELETE FROM chapter WHERE id = '.$chapter->getId());
+    	$req = $this->db->prepare('DELETE FROM chapter WHERE id = :id');
+        $req->bindValue(':id', $chapter->getId(), PDO::PARAM_INT);
+        $req->execute();
     }
 
     public function updateChapter(Chapter $chapter)
@@ -39,9 +41,9 @@ class ChapterManager extends Manager
 
     public function getChapter($id)
     {
-    	$id = (int) $id;
-
-    	$req = $this->db->query('SELECT id, authorId, title, content, creationDate, editDate, published FROM chapter WHERE id = '.$id);
+    	$req = $this->db->prepare('SELECT id, authorId, title, content, creationDate, editDate, published FROM chapter WHERE id = :id');
+        $req->bindValue(':id', $id, PDO::PARAM_INT);
+        $req->execute();
     	$data = $req->fetch(PDO::FETCH_ASSOC);
 
     	return new Chapter($data);

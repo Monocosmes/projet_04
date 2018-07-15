@@ -10,7 +10,7 @@ class View
      */
     private $page;
 
-    public function __construct($page)
+    public function __construct($page = [])
     {
         $this->page = $page;
     }
@@ -26,5 +26,19 @@ class View
 		$content = ob_get_clean();
 
 		require_once VIEW.'_template.php';
+    }
+
+    public function redirect($route)
+    {
+    	header('Location: ' .HOST.$route);
+    	exit;
+    }
+
+    public function dashboard()
+    {
+    	if(isset($isConnected))
+			return '<a href="'.HOST.'dashbord.html">Tableau de bord</a>';
+		else
+			return '<a href="'.HOST.'connexion.html">Connexion</a>';
     }
 }

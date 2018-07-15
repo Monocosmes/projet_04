@@ -7,7 +7,7 @@ L'administrateur doit pouvoir :
 - Créer des billets
 - Modifier les billets
 - Effacer les billets
-- Modifier les commentaires
+- Modérer les commentaires
 - Effacer les commentaires
 
 Les lecteurs doivent pouvoir :

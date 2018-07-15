@@ -9,6 +9,8 @@ class MyAutoload
     	$root = $_SERVER['DOCUMENT_ROOT'];
 		$host = $_SERVER['HTTP_HOST'];
 		$siteName = '/projet_04/';
+
+		require_once '_params.php';
 		
 		define('HOST', 'http://'.$host.$siteName);
 		define('ROOT', $root.$siteName);

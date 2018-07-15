@@ -75,5 +75,4 @@ class Chapter extends Entity
     	
     	$this->published = $published;
     }
-
 }

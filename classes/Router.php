@@ -10,8 +10,10 @@ class Router
     [
         'home.html' => ['controller' => 'Home', 'method' => 'showHome'],
         'chapters.html' => ['controller' => 'Home', 'method' => 'showChapters'],
+        'chapter.html' => ['controller' => 'Home', 'method' => 'showChapter'],
         'writeChapter.html' => ['controller' => 'Admin', 'method' => 'showWriteChapter'],
         'addChapter' => ['controller' => 'Admin', 'method' => 'addChapter'],
+        'addComment' => ['controller' => 'Home', 'method' => 'addComment'],
     ];
 
     public function __construct($request)
@@ -19,27 +21,51 @@ class Router
         $this->request = $request;
     }
 
+    public function getParams()
+    {
+        //echo $this->request; exit;
+
+        $elements = explode('/', $this->request);
+        unset($elements[0]);
+
+        for($i = 1; $i < count($elements); $i++)
+        {
+            $params[$elements[$i]] = $elements[$i + 1];
+            $i++;
+        }
+
+        if(!isset($params))
+        {
+            $params = null;
+        }
+
+        return $params;
+    }
+
+    public function getRoute()
+    {
+        $elements = explode('/', $this->request);
+
+        return $elements[0];
+    }
+
     public function renderController()
     {
-        $request = $this->request;
+        $route = $this->getRoute();
+        $params = $this->getParams();
 
-        if(key_exists($request, $this->routes))
+        if(key_exists($route, $this->routes))
         {
-            $controller = $this->routes[$request]['controller'];
-            $method = $this->routes[$request]['method'];
+            $controller = $this->routes[$route]['controller'];
+            $method = $this->routes[$route]['method'];
 
             $currentController = new $controller();
-            $currentController->$method();
+            $currentController->$method($params);
         }
         else
         {
-            ob_start();
-            require_once VIEW.'404.php';
-            $content = ob_get_clean();
-    
-            $pageTitle = 'Page 404';
-        
-            require_once VIEW.'_template.php';    
+            $myView = new View('404');
+            $myView->render();    
         }
     }
 }

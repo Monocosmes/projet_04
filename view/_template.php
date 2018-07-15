@@ -11,21 +11,12 @@
 		<div>
 			<nav>
 				<ul>
-					<li><a href="home.html">Accueil</a></li>
-					<li><a href="writeChapter.html">Ajouter Chapitre</a></li>
-					<li><a href="chapters.html">Chapitres</a></li>
-					<li><a href="contact.html">Contact</a></li>
+					<li><a href="<?= HOST.'home.html' ?>">Accueil</a></li>
+					<li><a href="<?= HOST.'writeChapter.html' ?>">Ajouter Chapitre</a></li>
+					<li><a href="<?= HOST.'chapters.html' ?>">Chapitres</a></li>
+					<li><a href="<?= HOST.'contact.html' ?>">Contact</a></li>
 					<li>
-						<?php
-							if(isset($isConnected))
-							{
-								echo '<a href="dashbord.html">Tableau de bord</a>';
-							}
-							else
-							{
-								echo '<a href="connexion.html">Connexion</a>';
-							}
-						?>
+						<?= $this->dashboard() ?>
 					</li>
 				</ul>
 			</nav>

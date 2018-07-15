@@ -5,7 +5,7 @@
  */
 class Admin
 {
-    public function addChapter()
+    public function addChapter($params)
     {
     	$chapter = new Chapter
         ([
@@ -20,10 +20,8 @@ class Admin
     		$chapterManager = new ChapterManager();
             $chapterId = $chapterManager->addChapter($chapter);
 
-            $chapter = $chapterManager->getChapter($chapterId);
-
-            $myView = new View('home');
-            $myView->render($chapter);
+            $myView = new View();
+            $myView->redirect('home.html/chapterId/'.$chapterId);
     	}
     	else
     	{
@@ -32,7 +30,7 @@ class Admin
     	}    	
     }
 
-    public function showWriteChapter()
+    public function showWriteChapter($params)
     {
     	$myView = new View('writeChapter');
         $myView->render();
