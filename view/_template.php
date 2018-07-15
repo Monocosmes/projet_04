@@ -16,16 +16,11 @@
 					<li><a href="chapters.html">Chapitres</a></li>
 					<li><a href="contact.html">Contact</a></li>
 					<li>
-						<?php
-							if(isset($isConnected))
-							{
-								echo '<a href="dashbord.html">Tableau de bord</a>';
-							}
-							else
-							{
-								echo '<a href="connexion.html">Connexion</a>';
-							}
-						?>
+						<?php if(isset($isConnected)) :?>
+							<a href="dashbord.html">Tableau de bord</a>
+						<?php else :?>
+							<a href="connexion.html">Connexion</a>
+						<?php endif;?>
 					</li>
 				</ul>
 			</nav>
