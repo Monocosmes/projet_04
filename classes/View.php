@@ -36,9 +36,9 @@ class View
 
     public function dashboard()
     {
-    	if(isset($isConnected))
-			return '<a href="'.HOST.'dashbord.html">Tableau de bord</a>';
+    	if(isset($_SESSION['isLogged']) AND $_SESSION['isLogged'] AND $_SESSION['rank'] > 3)
+			return '<li><a href="'.HOST.'dashboard.html">Tableau de bord</a></li><li><a href="'.HOST.'signoff">Déconnexion</a></li>';
 		else
-			return '<a href="'.HOST.'connexion.html">Connexion</a>';
+			return '<li><a href="'.HOST.'signin.html">Connexion</a></li>';
     }
 }
