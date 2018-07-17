@@ -10,7 +10,7 @@ class ChapterManager extends Manager
      */
     public function addChapter(Chapter $chapter)
     {
-    	$req = $this->db->prepare('INSERT INTO chapter(authorId, title, content, creationDate, editDate, published) VALUES(:authorId, :title, :content, NOW(), NOW(), :published)');
+    	$req = $this->db->prepare('INSERT INTO chapter(authorId, title, content, creationDate, editDate, published, commentNumber) VALUES(:authorId, :title, :content, NOW(), NOW(), :published, 0)');
     	$req->bindValue(':authorId', $chapter->getAuthorId(), PDO::PARAM_INT);
     	$req->bindValue(':title', $chapter->getTitle());
     	$req->bindValue(':content', $chapter->getContent());
@@ -40,10 +40,16 @@ class ChapterManager extends Manager
     }
 
     public function getChapter($id)
-    {
-    	$req = $this->db->prepare('SELECT id, authorId, title, content, creationDate, editDate, published FROM chapter WHERE id = :id');
+    {        
+        $this->db->query('SET lc_time_names = \'fr_FR\'');
+        $req = $this->db->prepare('
+            SELECT chapter.id, authorId, title, content, DATE_FORMAT(chapter.creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, editDate, published, commentNumber, user.login AS authorName
+            FROM chapter
+            LEFT JOIN user ON authorId = user.id
+            WHERE chapter.id = :id');
         $req->bindValue(':id', $id, PDO::PARAM_INT);
         $req->execute();
+      
     	$data = $req->fetch(PDO::FETCH_ASSOC);
 
     	return new Chapter($data);
@@ -51,7 +57,13 @@ class ChapterManager extends Manager
 
     public function getLastChapter()
     {
-        $req = $this->db->query('SELECT id, authorId, title, content, creationDate, editDate, published FROM chapter ORDER BY creationDate DESC LIMIT 0, 1');
+        $this->db->query('SET lc_time_names = \'fr_FR\'');
+        $req = $this->db->query('
+            SELECT chapter.id, authorId, title, content, DATE_FORMAT(chapter.creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, editDate, published, commentNumber, user.login AS authorName
+            FROM chapter
+            LEFT JOIN user ON authorId = user.id
+            ORDER BY chapter.creationDate
+            DESC LIMIT 0, 1');
         $data = $req->fetch(PDO::FETCH_ASSOC);
 
         return new Chapter($data);
@@ -59,7 +71,13 @@ class ChapterManager extends Manager
 
     public function getAllChapters()
     {
-    	$req = $this->db->query('SELECT id, authorId, title, content, creationDate, editDate, published FROM chapter ORDER BY creationDate DESC');
+    	$this->db->query('SET lc_time_names = \'fr_FR\'');
+        $req = $this->db->query('
+            SELECT chapter.id, authorId, title, content, DATE_FORMAT(chapter.creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, editDate, published, commentNumber, user.login AS authorName
+            FROM chapter
+            LEFT JOIN user ON authorId = user.id
+            ORDER BY chapter.creationDate
+            DESC');
 
     	while($data = $req->fetch(PDO::FETCH_ASSOC))
     	{
@@ -67,5 +85,12 @@ class ChapterManager extends Manager
     	}
 
     	return $chapters;
+    }
+
+    public function addCommentNumber($id)
+    {
+        $req = $this->db->prepare('UPDATE chapter SET commentNumber = commentNumber + 1 WHERE id = :id');
+        $req->bindValue(':id', $id, PDO::PARAM_INT);
+        $req->execute();
     }
 }

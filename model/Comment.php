@@ -9,7 +9,7 @@ class Comment extends Entity
     protected $chapterId;
     protected $author;
     protected $message;
-    protected $creationDate;
+    protected $creationDateFr;
     protected $authorIp;
     protected $reported;
 
@@ -18,7 +18,7 @@ class Comment extends Entity
     public function getChapterId() {return $this->chapterId;}
     public function getAuthor() {return $this->author;}    
     public function getMessage() {return $this->message;}
-    public function getCreationDate() {return $this->creationDate;}
+    public function getCreationDateFr() {return $this->creationDateFr;}
     public function getAuthorIp() {return $this->authorIp;}
     public function getReported() {return $this->reported;}
 
@@ -53,11 +53,11 @@ class Comment extends Entity
     	}
     }
 
-    public function setCreationDate($creationDate)
+    public function setCreationDateFr($creationDateFr)
     {
-    	if(is_string($creationDate))
+    	if(is_string($creationDateFr))
     	{
-    		$this->creationDate = $creationDate;
+    		$this->creationDateFr = $creationDateFr;
     	}
     }
 

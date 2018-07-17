@@ -41,7 +41,7 @@ class CommentManager extends Manager
 
     public function getComment($id)
     {
-    	$req = $this->db->prepare('SELECT id, chapterId, author, message, creationDate, authorIp, reported FROM comment WHERE id = :id');
+    	$req = $this->db->prepare('SELECT id, chapterId, author, message, DATE_FORMAT(creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, authorIp, reported FROM comment WHERE id = :id');
         $req->bindValue(':id', (int) $id, PDO::PARAM_INT);
         $req->execute();
     	$data = $req->fetch(PDO::FETCH_ASSOC);
@@ -53,7 +53,7 @@ class CommentManager extends Manager
     {
     	$comments = null;
 
-        $req = $this->db->prepare('SELECT id, chapterId, author, message, creationDate, authorIp, reported FROM comment WHERE chapterId = :chapterId ORDER BY creationDate DESC');
+        $req = $this->db->prepare('SELECT id, chapterId, author, message, DATE_FORMAT(creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, authorIp, reported FROM comment WHERE chapterId = :chapterId ORDER BY creationDate DESC');
         $req->bindValue(':chapterId', $chapterId, PDO::PARAM_INT);
         $req->execute();
 
@@ -65,11 +65,23 @@ class CommentManager extends Manager
     	return $comments;
     }
 
-    public function reportComment(Comment $comment)
+    public function getReportedComments()
     {
-        $req = $this->db->prepare('UPDATE comment SET reported = :reported WHERE id = :id');
-        $req->bindValue(':reported', $comment->getReported());
-        $req->bindValue(':id', $comment->getId(), PDO::PARAM_INT);
+        $comments = null;
+
+        $req = $this->db->query('SELECT id, chapterId, author, message, DATE_FORMAT(creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, authorIp, reported FROM comment WHERE reported = 1');
+        while($data = $req->fetch(PDO::FETCH_ASSOC))
+        {
+            $comments[] = new Comment($data);
+        }
+
+        return $comments;
+    }
+
+    public function reportComment($id)
+    {
+        $req = $this->db->prepare('UPDATE comment SET reported = 1 WHERE id = :id');
+        $req->bindValue(':id', $id, PDO::PARAM_INT);
 
         $req->execute();
     }

@@ -7,20 +7,24 @@ class Chapter extends Entity
 {
     protected $id;
     protected $authorId;
+    protected $authorName;
     protected $title;
     protected $content;
-    protected $creationDate;
+    protected $creationDateFr;
     protected $editDate;
     protected $published;
+    protected $commentNumber;
     
     //Initializing getters
     public function getId() {return $this->id;}
     public function getAuthorId() {return $this->authorId;}
+    public function getAuthorName() {return $this->authorName;}
     public function getTitle() {return $this->title;}
     public function getContent() {return $this->content;}
-    public function getCreationDate() {return $this->creationDate;}
+    public function getCreationDateFr() {return $this->creationDateFr;}
     public function getEditDate() {return $this->editDate;}
     public function getPublished() {return $this->published;}
+    public function getCommentNumber() {return $this->commentNumber;}
 
     //Initializing setters
     public function setId($id)
@@ -35,6 +39,14 @@ class Chapter extends Entity
     	$authorId = (int) $authorId;        
     	
     	$this->authorId = $authorId;    	
+    }
+
+    public function setAuthorName($authorName)
+    {
+        if(is_string($authorName))
+        {
+            $this->authorName = $authorName;
+        }
     }
 
     public function setTitle($title)
@@ -53,11 +65,11 @@ class Chapter extends Entity
     	}
     }
 
-    public function setCreationDate($creationDate)
+    public function setCreationDateFr($creationDateFr)
     {
-    	if(is_string($creationDate))
+    	if(is_string($creationDateFr))
     	{
-    		$this->creationDate = $creationDate;
+    		$this->creationDateFr = $creationDateFr;
     	}
     }
 
@@ -74,5 +86,12 @@ class Chapter extends Entity
     	$published = (int) $published;
     	
     	$this->published = $published;
+    }
+
+    public function setCommentNumber($commentNumber)
+    {
+        $commentNumber = (int) $commentNumber;
+        
+        $this->commentNumber = $commentNumber;
     }
 }
