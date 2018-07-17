@@ -12,12 +12,9 @@
 			<nav>
 				<ul>
 					<li><a href="<?= HOST.'home.html' ?>">Accueil</a></li>
-					<li><a href="<?= HOST.'writeChapter.html' ?>">Ajouter Chapitre</a></li>
 					<li><a href="<?= HOST.'chapters.html' ?>">Chapitres</a></li>
 					<li><a href="<?= HOST.'contact.html' ?>">Contact</a></li>
-					<li>
-						<?= $this->dashboard() ?>
-					</li>
+					<?= $this->dashboard() ?>
 				</ul>
 			</nav>
 		</div>

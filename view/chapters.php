@@ -3,6 +3,7 @@
 <section class="chapters">
 	<?php foreach($chapters as $chapter) :?>
 		<div class="chapter">
+			<div><?= $chapter->getCreationDateFr() ?></div>
 			<div><a href="<?= HOST.'chapter.html/chapterId/'.$chapter->getId() ?>"><?= $chapter->getTitle() ?></a></div>
 			<div><?= $chapter->getContent() ?></div>
 		</div>
