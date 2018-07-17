@@ -11,9 +11,15 @@ class Router
         'home.html' => ['controller' => 'Home', 'method' => 'showHome'],
         'chapters.html' => ['controller' => 'Home', 'method' => 'showChapters'],
         'chapter.html' => ['controller' => 'Home', 'method' => 'showChapter'],
+        'addComment' => ['controller' => 'Home', 'method' => 'addComment'],
+        'reportComment' => ['controller' => 'Home', 'method' => 'reportComment'],
         'writeChapter.html' => ['controller' => 'Admin', 'method' => 'showWriteChapter'],
         'addChapter' => ['controller' => 'Admin', 'method' => 'addChapter'],
-        'addComment' => ['controller' => 'Home', 'method' => 'addComment'],
+        'addUser' => ['controller' => 'Admin', 'method' => 'addUser'],
+        'signin' => ['controller' => 'Admin', 'method' => 'signin'],
+        'signoff' => ['controller' => 'Admin', 'method' => 'signoff'],
+        'signin.html' => ['controller' => 'Admin', 'method' => 'showSigninPage'],
+        'dashboard.html' => ['controller' => 'Admin', 'method' => 'showDashboard'],
     ];
 
     public function __construct($request)
@@ -23,8 +29,6 @@ class Router
 
     public function getParams()
     {
-        //echo $this->request; exit;
-
         $elements = explode('/', $this->request);
         unset($elements[0]);
 
