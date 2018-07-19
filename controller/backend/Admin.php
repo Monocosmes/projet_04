@@ -16,7 +16,7 @@ class Admin
             'published' => $_POST['published']
         ]);
 
-        if($chapter->isChapterNumberValid($_POST['chapterNumber']) AND $chapter->isTitleValid($_POST['title']) AND $chapter->isContentValid($_POST['content']) AND $chapter->isAuthorValid($_POST['author']))
+        if($chapter->isValid($_POST['chapterNumber']) AND $chapter->isValid($_POST['title']) AND $chapter->isValid($_POST['content']) AND $chapter->isValid($_POST['author']))
     	{
     		$chapterManager = new ChapterManager();
             $chapterId = $chapterManager->addChapter($chapter);
@@ -50,8 +50,10 @@ class Admin
         $commentManager = new CommentManager();
         $comments = $commentManager->getReportedComments();
 
+        $elements = ['comments' => $comments];
+
         $myView = new View('admin/dashboard');
-        $myView->render(null, null, $comments);
+        $myView->render($elements);
     }
 
     public function showEditPage($params)
@@ -61,8 +63,10 @@ class Admin
         $chapterManager = new ChapterManager();
         $chapter = $chapterManager->getChapter($chapterId);
 
+        $elements = ['chapter' => $chapter];
+
         $myView = new View('admin/editChapter');
-        $myView->render($chapter);
+        $myView->render($elements);
     }
 
     public function showWriteChapter($params)

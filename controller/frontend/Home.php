@@ -14,13 +14,13 @@ class Home
     		'message' => $_POST['message'],
     	]);
 
-    	if($comment->isContentValid($_POST['message']) AND $comment->isAuthorValid($_POST['authorId']))
+    	if($comment->isValid($_POST['message']) AND $comment->isValid($_POST['authorId']) AND $comment->isValid($_POST['chapterId']))
     	{
     		$commentManager = new CommentManager();
             $commentId = $commentManager->addComment($comment);
 
             $chapterManager = new ChapterManager();
-            $chapterManager->addCommentNumber($comment->getChapterId());
+            $chapterManager->changeCommentNumber($comment->getChapterId(), (1));
 
             $myView = new View();
             $myView->redirect('chapter.html/chapterId/'.$comment->getChapterId().'#c-'.$commentId);
@@ -30,27 +30,46 @@ class Home
     		$myView = new View('404');
             $myView->render();
     	}
+    }    
+
+    public function deleteComment($params)
+    {
+    	extract($params);
+
+    	$num = -1;
+
+    	$commentManager = new CommentManager();
+    	$commentManager->deleteComment($commentId);
+
+    	$chapterManager = new ChapterManager();
+    	$chapterManager->changeCommentNumber($chapterId, $num);
+
+    	$myView = new View();
+        $myView->redirect('chapter.html/chapterId/'.$chapterId);
     }
 
-    public function addUser($params)
+    public function editComment($params)
     {
-        $user = new User
-        ([
-            'login' => $_POST['login'],
-            'email' => $_POST['email'],
-            'password' => $_POST['password'],
-        ]);
+    	$comment = new Comment
+    	([
+    		'id' => $_POST['id'],
+    		'chapterId' => $_POST['chapterId'],
+    		'message' => $_POST['message']
+    	]);
 
-        if($user->isPasswordsMatch($_POST['passwordMatch']))
-        {	
-        	$userManager = new UserManager();
-        	$userId = $userManager->addUser($user);
-        }
-        else
-        {
-        	$myView = new View('entry/signup');
-        	$myView->render(null, null, null, $user);
-        }        
+    	if($comment->isValid($_POST['message']) AND $comment->isValid($_POST['chapterId']) AND $comment->isValid($_POST['id']))
+    	{
+    		$commentManager = new CommentManager();
+            $commentManager->updateComment($comment);
+
+            $myView = new View();
+            $myView->redirect('chapter.html/chapterId/'.$comment->getChapterId().'#c-'.$comment->getId());
+    	}
+    	else
+    	{
+    		$myView = new View('404');
+            $myView->render();
+    	}
     }
 
     public function reportComment($params)
@@ -74,8 +93,10 @@ class Home
     	$commentManager = new CommentManager();
     	$comments = $commentManager->getAllComments($chapterId);
 
+    	$elements = ['chapter' => $chapter, 'comments' => $comments];
+
     	$myView = new View('chapter');
-		$myView->render($chapter, null, $comments);
+		$myView->render($elements);
     }
 
     public function showChapters($params)
@@ -83,8 +104,10 @@ class Home
     	$chapterManager = new ChapterManager();
     	$chapters = $chapterManager->getAllChapters();    	
 
+    	$elements = ['chapters' => $chapters];
+
     	$myView = new View('chapters');
-		$myView->render(null, $chapters);
+		$myView->render($elements);
     }
 
     public function showHome($params)
@@ -93,65 +116,10 @@ class Home
 		$chapter = $chapterManager->getLastChapter();
 		$chapters = $chapterManager->getAllChapters();
 
+		$elements = ['chapter' => $chapter, 'chapters' => $chapters];
+
 		$myView = new View('home');
-		$myView->render($chapter, $chapters);		
-    }
-
-    public function showSigninPage($params)
-    {
-        $myView = new View('entry/signin');
-        $myView->render();
-    }
-
-    public function showSignupPage($params)
-    {
-    	$myView = new View('entry/signup');
-        $myView->render();
-    }
-
-    public function signin($params)
-    {
-        $userManager = new UserManager();
-        $user = new User(['login' => $_POST['login']]);
-
-        if($user->isLoginValid())
-        {
-        	$user = $userManager->getUser($_POST['login']);
-
-        	if($user->isPasswordValid($_POST['password']))
-        	{
-        	    session_start();
-	
-        	    $_SESSION['id'] = $user->getId();
-        	    $_SESSION['login'] = $user->getLogin();
-        	    $_SESSION['email'] = $user->getEmail();
-        	    $_SESSION['rank'] = $user->getRank();
-        	    $_SESSION['creationDate'] = $user->getCreationDateFr();
-        	    $_SESSION['biography'] = $user->getBiography();
-        	    $_SESSION['isLogged'] = true;
-	
-        	    $myView = new View();
-        	    $myView->redirect('home.html');
-        	}
-        	else
-        	{        		
-        		$myView = new View('entry/signin');
-        		$myView->render(null, null, null, $user);
-        	}
-        }
-        else
-        {
-        	$myView = new View('entry/signin');
-        	$myView->render(null, null, null, $user);
-        }
-    }
-
-    public function signoff($params)
-    {
-        session_destroy();
-
-        $myView = new View();
-        $myView->redirect('home.html');
-    }
+		$myView->render($elements);		
+    }    
 }
 	
