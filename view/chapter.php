@@ -4,9 +4,10 @@
 	<article>
 		<div><?= $chapter->getCreationDateFr() ?></div>
 		<h1><?= $chapter->getTitle() ?></h1>
-		<p><?= (int) $chapter->getAuthorId() ?></p>
 		<p><?= $chapter->getAuthorName() ?></p>
 		<p><?= $chapter->getContent() ?></p>
+		<?= $this->editButton($chapter) ?>
+		<?= $this->deleteButton($chapter) ?>		
 	</article>
 </section>
 
@@ -15,7 +16,7 @@
 		<h2>Commentaires</h2>
 		<?php foreach($comments as $comment) :?>
 			<div id="c-<?= $comment->getId() ?>">
-				<div><?= $comment->getAuthor() ?></div>
+				<div><?= $comment->getAuthorName() ?></div>
 				<div><?= $comment->getMessage() ?></div>
 			</div>
 			<a href="<?= HOST.'reportComment/chapterId/'.$chapter->getId().'/commentId/'.$comment->getId() ?>">Signaler ce commentaire</a>
@@ -25,14 +26,18 @@
 		<div>Soyez le premier à commenter</div>
 	<?php endif ?>
 
-	<h2>Ajouter un commentaire</h2>
-	<form method="post" action="<?= HOST.'addComment' ?>">
-		<input type="hidden" name="authorIp" value="<?= $_SERVER['REMOTE_ADDR'] ?>" />
-		<input type="hidden" name="chapterId" value="<?= $chapter->getId() ?>" />
-		<label for="name">Votre pseudo</label>
-		<input type="text" name="author" id="name" />
-		<label for="message">Votre message</label>
-		<textarea name="message" id="message"></textarea>
-		<button type="submit">Envoyer</button>
-	</form>
+	<?php if($_SESSION['isLogged']) :?>
+		<h2>Ajouter un commentaire</h2>
+		<form method="post" action="<?= HOST.'addComment' ?>">
+			<input type="hidden" name="authorId" value="<?= $_SESSION['id'] ?>" />
+			<input type="hidden" name="chapterId" value="<?= $chapter->getId() ?>" />
+			<label for="name">Votre pseudo</label>
+			<input type="text" name="author" id="name" value="<?= $_SESSION['login'] ?>" disabled="true" />
+			<label for="message">Votre message</label>
+			<textarea name="message" id="message"></textarea>
+			<button type="submit">Envoyer</button>
+		</form>
+	<?php else :?>
+		<div><a href="<?= HOST.'signin.html' ?>">Connectez-vous</a> pour commenter</div>
+	<?php endif ?>
 </section>

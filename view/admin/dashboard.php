@@ -4,12 +4,13 @@
 		<li><a href="<?= HOST.'addUser' ?>">Ajouter Membre</a></li>
 	</ul>
 
-	<form>
+	<form method="post" action="NOM A TROUVER">
 		<div>
-			<label>Commentaires signalés</label>
+			<p><label for="reported">Commentaires signalés</label></p>
 			<select>
+				<option>Sélectionnez un commentaire...</option>
 				<?php foreach($comments as $comment) :?>
-					<option><?= substr($comment->getMessage(), 0, 50) ?></option>
+					<option><?= substr($comment->getMessage(), 0, 20) ?>...</option>
 				<?php endforeach; ?>
 			</select>
 		</div>

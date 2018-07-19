@@ -8,6 +8,15 @@ article
 {
 	width: 80%;
 	border: 1px black solid;
+	margin: 0 15px;
+}
+
+
+aside
+{
+	border: 1px black solid;
+	margin: 0 15px;
+	padding: 5px 10px;
 }
 
 form
@@ -20,7 +29,7 @@ form
 {
 	width: 90%;
 	border-top: 1px black solid;
-	margin: 0 auto;
+	margin: 10px auto;
 }
 
 .chapters

@@ -5,7 +5,7 @@
 		<div class="chapter">
 			<div><?= $chapter->getCreationDateFr() ?></div>
 			<div><a href="<?= HOST.'chapter.html/chapterId/'.$chapter->getId() ?>"><?= $chapter->getTitle() ?></a></div>
-			<div><?= $chapter->getContent() ?></div>
+			<div><?= substr($chapter->getContent(), 0, 200).'...' ?></div>
 		</div>
 	<?php endforeach ?>
 </section>

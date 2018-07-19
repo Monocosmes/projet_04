@@ -15,6 +15,7 @@
 					<li><a href="<?= HOST.'chapters.html' ?>">Chapitres</a></li>
 					<li><a href="<?= HOST.'contact.html' ?>">Contact</a></li>
 					<?= $this->dashboard() ?>
+					<?= $this->signLink() ?>
 				</ul>
 			</nav>
 		</div>
