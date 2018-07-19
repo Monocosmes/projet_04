@@ -1,13 +1,16 @@
 <?php $pageTitle = 'Blog de Jean Laroche - '.$chapter->getTitle(); ?>
 
 <section>
-	<article>
-		<div><?= $chapter->getCreationDateFr() ?></div>
-		<h1><?= $chapter->getTitle() ?></h1>
-		<p><?= $chapter->getAuthorName() ?></p>
-		<p><?= $chapter->getContent() ?></p>
-		<?= $this->editButton($chapter) ?>
-		<?= $this->deleteButton($chapter) ?>		
+	<article id="newsViewPage">
+		<div>
+			<div><?= $chapter->getCreationDateFr() ?></div>			
+			<h1 id="<?= $chapter->getId() ?>"><?= $chapter->getTitle() ?></h1>
+			<p>Chapitre <?= $chapter->getChapterNumber() ?></p>
+		</div>		
+
+		<?= $chapter->getContent() ?>
+		<?= $this->editChapterButton($chapter) ?>
+		<?= $this->deleteChapterButton($chapter) ?>		
 	</article>
 </section>
 
@@ -16,9 +19,11 @@
 		<h2>Commentaires</h2>
 		<?php foreach($comments as $comment) :?>
 			<div id="c-<?= $comment->getId() ?>">
-				<div><?= $comment->getAuthorName() ?></div>
+				<p>Par <?= $comment->getAuthorName() ?> le <?= $comment->getCreationDateFr() ?></p>
 				<div><?= $comment->getMessage() ?></div>
 			</div>
+			<?= $this->editCommentButton($comment) ?>
+			<?= $this->deleteCommentButton($comment) ?>
 			<a href="<?= HOST.'reportComment/chapterId/'.$chapter->getId().'/commentId/'.$comment->getId() ?>">Signaler ce commentaire</a>
 			<div class="separator"></div>
 		<?php endforeach ?>

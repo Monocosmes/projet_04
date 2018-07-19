@@ -1,5 +1,16 @@
+<?php $pageTitle = 'Blog de Jean Laroche'; ?>
+
 <?php if(!empty($user)) :?>
-	<div><?= $user->getError() ?></div>
+	<?php $errors = $user->getError() ?>
+	<div id="errors">
+		<?php for($i = 0; $i < count($errors); $i++) :?>
+			<div><?= $errors[$i].'<br />' ?></div>
+		<?php endfor ?>
+	</div>
+<?php endif ?>
+
+<?php if(isset($success)) :?>
+	<div id="success">Bienvenue parmis nous. Connectez-vous sans plus attendre !</div>
 <?php endif ?>
 
 <section>

@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="<?= ASSETS ?>style.css">
+	<link rel="stylesheet" type="text/css" href="<?= ASSETS ?>css/style.css">
 	<title><?= $pageTitle ?></title>
 </head>
 <body>
@@ -23,8 +23,11 @@
 
 	<?= $content ?>
 
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="<?= ASSETS ?>tinymce/js/tinymce.min.js"></script>
   	<script>tinymce.init({ selector:'textarea' });</script>
+  	<script src="<?= ASSETS ?>js/main"></script>
+  	<script src="<?= ASSETS ?>js/editPost"></script>
 
 </body>
 </html>

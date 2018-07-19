@@ -10,11 +10,10 @@
 			</div>
 			
 			<p><?= $chapter->getAuthorName() ?></p>
-			<p><?= $chapter->getContent() ?></p>
-			<?php if(isset($_SESSION['rank']) AND $_SESSION['rank'] > 3) :?>
-				<a href="<?= HOST.'editChapter.html/chapterId/'.$chapter->getId() ?>">Modifier</a>
-				<a href="<?= HOST.'deleteChapter/chapterId/'.$chapter->getId() ?>">Supprimer</a>
-			<?php endif ?>
+			<?= $chapter->getContent() ?>
+			
+			<?= $this->editChapterButton($chapter) ?>
+			<?= $this->deleteChapterButton($chapter) ?>
 		<?php else :?>
 			<div>Aucun chapitre publié actuellement</div>
 		<?php endif ?>

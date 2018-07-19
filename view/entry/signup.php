@@ -1,10 +1,10 @@
-
-
 <?php if(!empty($user)) :?>
 	<?php $errors = $user->getError() ?>
-	<?php for($i = 0; $i < count($errors); $i++) :?>
-	<div><?= $errors[$i].'<br />' ?></div>
-	<?php endfor ?>
+	<div id="errors">
+		<?php for($i = 0; $i < count($errors); $i++) :?>
+			<div><?= $errors[$i].'<br />' ?></div>
+		<?php endfor ?>
+	</div>
 <?php endif ?>
 
 <section>
