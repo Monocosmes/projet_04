@@ -6,6 +6,16 @@ class MyAutoload
     {
     	session_start();
 
+        if(!isset($_SESSION['isLogged']))
+        {
+            $_SESSION['isLogged'] = false;
+        }
+
+        if(!isset($_SESSION['id']))
+        {
+            $_SESSION['id'] = 0;
+        }
+
     	spl_autoload_register(array(__CLASS__, 'autoload'));
 
     	$root = $_SERVER['DOCUMENT_ROOT'];
