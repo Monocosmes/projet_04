@@ -7,19 +7,18 @@ class Comment extends Entity
 {
     protected $id;
     protected $chapterId;
-    protected $author;
+    protected $authorId;
     protected $message;
     protected $creationDateFr;
-    protected $authorIp;
     protected $reported;
 
     //Initializing getters
     public function getId() {return $this->id;}
     public function getChapterId() {return $this->chapterId;}
-    public function getAuthor() {return $this->author;}    
+    public function getAuthorId() {return $this->authorId;}
+    public function getAuthorName() {return $this->authorName;}
     public function getMessage() {return $this->message;}
     public function getCreationDateFr() {return $this->creationDateFr;}
-    public function getAuthorIp() {return $this->authorIp;}
     public function getReported() {return $this->reported;}
 
     //Initializing setters
@@ -37,12 +36,19 @@ class Comment extends Entity
     	$this->chapterId = $chapterId;
     }
 
-    public function setAuthor($author)
+    public function setAuthorId($authorId)
     {
-    	if(is_string($author))
-    	{
-    		$this->author = $author;
-    	}
+    	$authorId = (int) $authorId;
+
+    	$this->authorId = $authorId;    	
+    }
+
+    public function setAuthorName($authorName)
+    {
+        if(is_string($authorName))
+        {
+            $this->authorName = $authorName;
+        }
     }
 
     public function setMessage($message)
@@ -58,14 +64,6 @@ class Comment extends Entity
     	if(is_string($creationDateFr))
     	{
     		$this->creationDateFr = $creationDateFr;
-    	}
-    }
-
-    public function setAuthorIp($authorIp)
-    {
-    	if(is_string($authorIp))
-    	{
-    		$this->authorIp = $authorIp;
     	}
     }
 

@@ -8,6 +8,7 @@ class Chapter extends Entity
     protected $id;
     protected $authorId;
     protected $authorName;
+    protected $chapterNumber;
     protected $title;
     protected $content;
     protected $creationDateFr;
@@ -19,6 +20,7 @@ class Chapter extends Entity
     public function getId() {return $this->id;}
     public function getAuthorId() {return $this->authorId;}
     public function getAuthorName() {return $this->authorName;}
+    public function getChapterNumber() {return $this->chapterNumber;}
     public function getTitle() {return $this->title;}
     public function getContent() {return $this->content;}
     public function getCreationDateFr() {return $this->creationDateFr;}
@@ -49,6 +51,13 @@ class Chapter extends Entity
         }
     }
 
+    public function setChapterNumber($chapterNumber)
+    {
+        $chapterNumber = (int) $chapterNumber;        
+        
+        $this->chapterNumber = $chapterNumber;        
+    }
+
     public function setTitle($title)
     {
     	if(is_string($title))
@@ -61,7 +70,7 @@ class Chapter extends Entity
     {
     	if(is_string($content))
     	{
-    		$this->content = $content;
+            $this->content = $content;
     	}
     }
 

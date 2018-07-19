@@ -10,7 +10,8 @@ class ChapterManager extends Manager
      */
     public function addChapter(Chapter $chapter)
     {
-    	$req = $this->db->prepare('INSERT INTO chapter(authorId, title, content, creationDate, editDate, published, commentNumber) VALUES(:authorId, :title, :content, NOW(), NOW(), :published, 0)');
+    	$req = $this->db->prepare('INSERT INTO chapter(authorId, chapterNumber, title, content, creationDate, editDate, published, commentNumber) VALUES(:authorId, :chapterNumber, :title, :content, NOW(), NOW(), :published, 0)');
+        $req->bindValue(':chapterNumber', $chapter->getChapterNumber(), PDO::PARAM_INT);
     	$req->bindValue(':authorId', $chapter->getAuthorId(), PDO::PARAM_INT);
     	$req->bindValue(':title', $chapter->getTitle());
     	$req->bindValue(':content', $chapter->getContent());
@@ -21,18 +22,19 @@ class ChapterManager extends Manager
         return $this->db->lastInsertId();
     }
 
-    public function deleteChapter(Chapter $chapter)
+    public function deleteChapter($chapterId)
     {
     	$req = $this->db->prepare('DELETE FROM chapter WHERE id = :id');
-        $req->bindValue(':id', $chapter->getId(), PDO::PARAM_INT);
+        $req->bindValue(':id', $chapterId, PDO::PARAM_INT);
         $req->execute();
     }
 
     public function updateChapter(Chapter $chapter)
     {
-    	$req = $this->db->prepare('UPDATE chapter SET title = :title, content = :content, editDate = NOW(), published = :published WHERE id = :id');
+    	$req = $this->db->prepare('UPDATE chapter SET chapterNumber = :chapterNumber, title = :title, content = :content, editDate = NOW(), published = :published WHERE id = :id');
+        $req->bindValue(':chapterNumber', $chapter->getChapterNumber(), PDO::PARAM_INT);
     	$req->bindValue(':title', $chapter->getTitle());
-    	$req->bindValue(':content', $chapter->getTitle());
+    	$req->bindValue(':content', $chapter->getContent());
     	$req->bindValue(':published', $chapter->getPublished());
     	$req->bindValue(':id', $chapter->getId(), PDO::PARAM_INT);
 
@@ -43,7 +45,7 @@ class ChapterManager extends Manager
     {        
         $this->db->query('SET lc_time_names = \'fr_FR\'');
         $req = $this->db->prepare('
-            SELECT chapter.id, authorId, title, content, DATE_FORMAT(chapter.creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, editDate, published, commentNumber, user.login AS authorName
+            SELECT chapter.id, authorId, chapterNumber, title, content, DATE_FORMAT(chapter.creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, editDate, published, commentNumber, user.login AS authorName
             FROM chapter
             LEFT JOIN user ON authorId = user.id
             WHERE chapter.id = :id');
@@ -52,28 +54,30 @@ class ChapterManager extends Manager
       
     	$data = $req->fetch(PDO::FETCH_ASSOC);
 
-    	return new Chapter($data);
+    	return ($data)?new Chapter($data):'';
     }
 
     public function getLastChapter()
     {
         $this->db->query('SET lc_time_names = \'fr_FR\'');
         $req = $this->db->query('
-            SELECT chapter.id, authorId, title, content, DATE_FORMAT(chapter.creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, editDate, published, commentNumber, user.login AS authorName
+            SELECT chapter.id, authorId, chapterNumber, title, content, DATE_FORMAT(chapter.creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, editDate, published, commentNumber, user.login AS authorName
             FROM chapter
             LEFT JOIN user ON authorId = user.id
             ORDER BY chapter.creationDate
             DESC LIMIT 0, 1');
         $data = $req->fetch(PDO::FETCH_ASSOC);
 
-        return new Chapter($data);
+        return ($data)?new Chapter($data):'';
     }
 
     public function getAllChapters()
     {
-    	$this->db->query('SET lc_time_names = \'fr_FR\'');
+    	$chapters = [];
+
+        $this->db->query('SET lc_time_names = \'fr_FR\'');
         $req = $this->db->query('
-            SELECT chapter.id, authorId, title, content, DATE_FORMAT(chapter.creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, editDate, published, commentNumber, user.login AS authorName
+            SELECT chapter.id, authorId, chapterNumber, title, content, DATE_FORMAT(chapter.creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, editDate, published, commentNumber, user.login AS authorName
             FROM chapter
             LEFT JOIN user ON authorId = user.id
             ORDER BY chapter.creationDate
