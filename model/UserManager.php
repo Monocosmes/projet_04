@@ -7,11 +7,10 @@ class UserManager extends Manager
 {
     public function addUser(User $user)
     {
-    	$req = $this->db->prepare('INSERT INTO user(login, email, password, creationDate, biography) VALUES(:login, :email, :password, NOW(), :biography)');
+    	$req = $this->db->prepare('INSERT INTO user(login, email, password, creationDate) VALUES(:login, :email, :password, NOW())');
     	$req->bindValue(':login', $user->getLogin());
     	$req->bindValue(':email', $user->getEmail());
     	$req->bindValue(':password', $user->getCryptedPassword());
-        $req->bindValue(':biography', $user->getBiography());
 
     	$req->execute();
 

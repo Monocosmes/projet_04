@@ -20,40 +20,39 @@ class CommentManager extends Manager
         return $this->db->lastInsertId();
     }
 
-    public function deleteComment($chapterId)
+    public function deleteComment($id)
     {
-    	$req = $this->db->prepare('DELETE FROM comment WHERE chapterId = :id');
-        $req->bindValue(':id', $chapterId, PDO::PARAM_INT);
+    	$req = $this->db->prepare('DELETE FROM comment WHERE id = :id');
+        $req->bindValue(':id', $id, PDO::PARAM_INT);
         $req->execute();
     }
 
     public function updateComment(Comment $comment)
     {
-    	$req = $this->db->prepare('UPDATE comment SET message = :message, reported = :reported WHERE id = :id');
+    	$req = $this->db->prepare('UPDATE comment SET message = :message WHERE id = :id');
     	$req->bindValue(':message', $comment->getMessage());
-    	$req->bindValue(':content', $comment->getTitle());
-    	$req->bindValue(':reported', $comment->getReported());
     	$req->bindValue(':id', $comment->getId(), PDO::PARAM_INT);
 
     	$req->execute();
     }
 
-    /*public function getComment($id)
+    public function getComment($id)
     {
-    	$req = $this->db->prepare('SELECT id, chapterId, authorId, message, DATE_FORMAT(creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, reported FROM comment WHERE id = :id');
+    	$req = $this->db->prepare('SELECT id, chapterId, authorId, message, DATE_FORMAT(creationDate, \'%d %M %Y à %H:%i:%s\') AS creationDateFr, reported FROM comment WHERE id = :id');
         $req->bindValue(':id', (int) $id, PDO::PARAM_INT);
         $req->execute();
     	$data = $req->fetch(PDO::FETCH_ASSOC);
 
     	return new Comment($data);
-    }*/
+    }
 
     public function getAllComments($chapterId)
     {
     	$comments = null;
 
+        $this->db->query('SET lc_time_names = \'fr_FR\'');
         $req = $this->db->prepare('
-            SELECT comment.id, chapterId, authorId, message, DATE_FORMAT(comment.creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, reported, login as authorName
+            SELECT comment.id, chapterId, authorId, message, DATE_FORMAT(comment.creationDate, \'%d %M %Y à %H:%i:%s\') AS creationDateFr, reported, login as authorName
             FROM comment
             LEFT JOIN user ON authorId = user.id
             WHERE chapterId = :chapterId

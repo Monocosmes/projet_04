@@ -91,9 +91,10 @@ class ChapterManager extends Manager
     	return $chapters;
     }
 
-    public function addCommentNumber($id)
+    public function changeCommentNumber($id, $num)
     {
-        $req = $this->db->prepare('UPDATE chapter SET commentNumber = commentNumber + 1 WHERE id = :id');
+        $req = $this->db->prepare('UPDATE chapter SET commentNumber = commentNumber + :num WHERE id = :id');
+        $req->bindValue(':num', $num, PDO::PARAM_INT);
         $req->bindValue(':id', $id, PDO::PARAM_INT);
         $req->execute();
     }

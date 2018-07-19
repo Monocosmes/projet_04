@@ -60,7 +60,7 @@ class User extends Entity
     		}
     		else
     		{
-    			$this->email = strtolower($email);
+    			$this->email = $email;
     		}
     	}
     }
@@ -70,19 +70,17 @@ class User extends Entity
     	if(is_string($password))
     	{
     		if(!empty($password))
-    		{
-    			if(strlen($password) < 4 OR strlen($password) > 255)
-    			{
-    				$this->error[] = 'Votre mot de passe doit comporter entre 4 et 50 caractères';
-    			}   			
-    			
+    		{    			
     			$this->password = $password;
-    			
     		}
     		else
     		{
     			$this->error[] = 'Vous devez choisir un mot de passe';
     		}    		
+    	}
+    	else
+    	{
+    		$this->error[] = 'Votre mot de passe doit être une chaîne de caractères';
     	}
     }
 
@@ -143,6 +141,62 @@ class User extends Entity
     			$this->error[] = 'Les mots de passe ne correspondent pas';
     			return false;
     		}
+    	}
+    }
+
+    public function checkLoginLenght()
+    {
+    	if(strlen($this->login) > 3)
+    	{
+    		return true;
+    	}
+    	else
+    	{
+    		$this->error[] = 'Votre identifiant doit comporter au moins 4 caractères';
+    		return false;
+    	}
+    }
+
+    public function checkPasswordLenght()
+    {
+    	if(strlen($this->password) > 5)
+    	{
+    		return true;
+    	}
+    	else
+    	{
+    		$this->error[] = 'Votre mot de passe doit comporter au moins 6 caractères';
+    		return false;
+    	}
+    }
+
+    public function isEmailExists()
+    {
+    	$userManager = new UserManager();
+
+    	if(!$userManager->isUserExists($this->email))
+    	{
+    		return true;
+    	}
+    	else
+    	{
+    		$this->error[] = 'Cet email est déjà pris. Veuillez en choisir un autre';
+    		return false;
+    	}
+    }
+
+    public function isLoginExists()
+    {
+    	$userManager = new UserManager();
+
+    	if(!$userManager->isUserExists($this->login))
+    	{
+    		return true;
+    	}
+    	else
+    	{
+    		$this->error[] = 'Cet identifiant est déjà pris. Veuillez en choisir un autre';
+    		return false;
     	}
     }
 
