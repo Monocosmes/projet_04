@@ -8,18 +8,22 @@ class Router
     private $request;
     private $routes =
     [
-        'home.html' => ['controller' => 'Home', 'method' => 'showHome'],
-        'chapters.html' => ['controller' => 'Home', 'method' => 'showChapters'],
-        'chapter.html' => ['controller' => 'Home', 'method' => 'showChapter'],
-        'addComment' => ['controller' => 'Home', 'method' => 'addComment'],
-        'reportComment' => ['controller' => 'Home', 'method' => 'reportComment'],
+        'addComment'        => ['controller' => 'Home', 'method' => 'addComment'],
+        'chapter.html'      => ['controller' => 'Home', 'method' => 'showChapter'],
+        'chapters.html'     => ['controller' => 'Home', 'method' => 'showChapters'],
+        'home.html'         => ['controller' => 'Home', 'method' => 'showHome'],
+        'reportComment'     => ['controller' => 'Home', 'method' => 'reportComment'],
+        'signin'            => ['controller' => 'Home', 'method' => 'signin'],
+        'signin.html'       => ['controller' => 'Home', 'method' => 'showSigninPage'],
+        'signup'            => ['controller' => 'Home', 'method' => 'addUser'],
+        'signup.html'       => ['controller' => 'Home', 'method' => 'showSignupPage'],
+        'signoff'           => ['controller' => 'Home', 'method' => 'signoff'],
+        'addChapter'        => ['controller' => 'Admin', 'method' => 'addChapter'],
+        'dashboard.html'    => ['controller' => 'Admin', 'method' => 'showDashboard'],
+        'deleteChapter'     => ['controller' => 'Admin', 'method' => 'deleteChapter'],
+        'editChapter.html'  => ['controller' => 'Admin', 'method' => 'showEditPage'],
+        'updateChapter'     => ['controller' => 'Admin', 'method' => 'updateChapter'],
         'writeChapter.html' => ['controller' => 'Admin', 'method' => 'showWriteChapter'],
-        'addChapter' => ['controller' => 'Admin', 'method' => 'addChapter'],
-        'addUser' => ['controller' => 'Admin', 'method' => 'addUser'],
-        'signin' => ['controller' => 'Admin', 'method' => 'signin'],
-        'signoff' => ['controller' => 'Admin', 'method' => 'signoff'],
-        'signin.html' => ['controller' => 'Admin', 'method' => 'showSigninPage'],
-        'dashboard.html' => ['controller' => 'Admin', 'method' => 'showDashboard'],
     ];
 
     public function __construct($request)
@@ -58,6 +62,13 @@ class Router
         $route = $this->getRoute();
         $params = $this->getParams();
 
+        if($this->routes[$route]['controller'] === 'Admin' AND (!isset($_SESSION['rank']) OR $_SESSION['rank'] < 4))
+        {
+            $myView = new View();
+            $myView->redirect('home.html');
+            //exit;
+        }
+        
         if(key_exists($route, $this->routes))
         {
             $controller = $this->routes[$route]['controller'];
@@ -69,7 +80,7 @@ class Router
         else
         {
             $myView = new View('404');
-            $myView->render();    
+            $myView->render();
         }
     }
 }
