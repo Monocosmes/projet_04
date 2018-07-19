@@ -5,9 +5,8 @@
  */
 abstract class Entity
 {
-    /**
-     * summary
-     */
+    protected $error = [];
+
     public function __construct(array $data = [])
     {
         if(!empty($data))
@@ -29,18 +28,13 @@ abstract class Entity
     	}
     }
 
-    public function isAuthorValid($author)
+    public function getError()
     {
-    	return !empty($author);
+    	return $this->error;
     }
 
-    public function isTitleValid($title)
+    public function isValid($data)
     {
-    	return !empty($title);
-    }
-
-    public function isContentValid($content)
-    {
-    	return !empty($content);
+    	return !empty($data);
     }
 }

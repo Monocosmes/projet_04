@@ -11,13 +11,15 @@ class Router
         'addComment'        => ['controller' => 'Home', 'method' => 'addComment'],
         'chapter.html'      => ['controller' => 'Home', 'method' => 'showChapter'],
         'chapters.html'     => ['controller' => 'Home', 'method' => 'showChapters'],
+        'deleteComment'     => ['controller' => 'Home', 'method' => 'deleteComment'],
+        'editComment'       => ['controller' => 'Home', 'method' => 'editComment'],
         'home.html'         => ['controller' => 'Home', 'method' => 'showHome'],
         'reportComment'     => ['controller' => 'Home', 'method' => 'reportComment'],
-        'signin'            => ['controller' => 'Home', 'method' => 'signin'],
-        'signin.html'       => ['controller' => 'Home', 'method' => 'showSigninPage'],
-        'signup'            => ['controller' => 'Home', 'method' => 'addUser'],
-        'signup.html'       => ['controller' => 'Home', 'method' => 'showSignupPage'],
-        'signoff'           => ['controller' => 'Home', 'method' => 'signoff'],
+        'signin'            => ['controller' => 'Entry', 'method' => 'signin'],
+        'signin.html'       => ['controller' => 'Entry', 'method' => 'showSigninPage'],
+        'signup'            => ['controller' => 'Entry', 'method' => 'signup'],
+        'signup.html'       => ['controller' => 'Entry', 'method' => 'showSignupPage'],
+        'signoff'           => ['controller' => 'Entry', 'method' => 'signoff'],
         'addChapter'        => ['controller' => 'Admin', 'method' => 'addChapter'],
         'dashboard.html'    => ['controller' => 'Admin', 'method' => 'showDashboard'],
         'deleteChapter'     => ['controller' => 'Admin', 'method' => 'deleteChapter'],
@@ -62,7 +64,7 @@ class Router
         $route = $this->getRoute();
         $params = $this->getParams();
 
-        if($this->routes[$route]['controller'] === 'Admin' AND (!isset($_SESSION['rank']) OR $_SESSION['rank'] < 4))
+        if(isset($this->routes[$route]) AND $this->routes[$route]['controller'] === 'Admin' AND (!isset($_SESSION['rank']) OR $_SESSION['rank'] < 4))
         {
             $myView = new View();
             $myView->redirect('home.html');
