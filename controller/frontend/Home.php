@@ -81,19 +81,32 @@ class Home
 
     	$myView = new View();
     	$myView->redirect('chapter.html/chapterId/'.$chapterId);
-    }    
+    }
+
+    public function show404Page($params)
+    {
+    	$footer = new Footer();
+    	$elements = ['footer' => $footer];
+
+    	$myView = new View('404');
+		$myView->render($elements);
+    }
 
     public function showChapter($params)
     {
     	extract($params);
 
+    	$footer = new Footer();
     	$chapterManager = new ChapterManager();
     	$chapter = $chapterManager->getChapter($chapterId);
+
+    	$chapter->setNextChapterId();
+		$chapter->setPreviousChapterId();
 
     	$commentManager = new CommentManager();
     	$comments = $commentManager->getAllComments($chapterId);
 
-    	$elements = ['chapter' => $chapter, 'comments' => $comments];
+    	$elements = ['chapter' => $chapter, 'comments' => $comments, 'footer' => $footer];
 
     	$myView = new View('chapter');
 		$myView->render($elements);
@@ -101,10 +114,11 @@ class Home
 
     public function showChapters($params)
     {
+    	$footer = new Footer();
     	$chapterManager = new ChapterManager();
     	$chapters = $chapterManager->getAllChapters();    	
 
-    	$elements = ['chapters' => $chapters];
+    	$elements = ['chapters' => $chapters, 'footer' => $footer];
 
     	$myView = new View('chapters');
 		$myView->render($elements);
@@ -112,11 +126,16 @@ class Home
 
     public function showHome($params)
     {
+		$footer = new Footer();
 		$chapterManager = new ChapterManager();
 		$chapter = $chapterManager->getLastChapter();
+
+		$chapter->setNextChapterId();
+		$chapter->setPreviousChapterId();
+
 		$chapters = $chapterManager->getAllChapters();
 
-		$elements = ['chapter' => $chapter, 'chapters' => $chapters];
+		$elements = ['chapter' => $chapter, 'chapters' => $chapters, 'footer' => $footer];
 
 		$myView = new View('home');
 		$myView->render($elements);		
