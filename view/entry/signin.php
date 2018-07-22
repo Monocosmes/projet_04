@@ -1,16 +1,17 @@
 <?php $pageTitle = 'Blog de Jean Laroche'; ?>
 
 <?php if(!empty($user)) :?>
-	<?php $errors = $user->getError() ?>
-	<div id="errors">
-		<?php for($i = 0; $i < count($errors); $i++) :?>
-			<div><?= $errors[$i].'<br />' ?></div>
+	<div class="message redBg">
+		<?php for($i = 0; $i < count($_SESSION['errors']); $i++) :?>
+			<div><?= $_SESSION['errors'][$i].'<br />' ?></div>
 		<?php endfor ?>
+		<?php unset($_SESSION['errors']) ?>
 	</div>
 <?php endif ?>
 
-<?php if(isset($success)) :?>
-	<div id="success">Bienvenue parmis nous. Connectez-vous sans plus attendre !</div>
+<?php if(isset($_SESSION['message'])) :?>
+	<div class="messages greenBg"><?= $_SESSION['message'] ?></div>
+	<?php unset($_SESSION['message']) ?>
 <?php endif ?>
 
 <section>

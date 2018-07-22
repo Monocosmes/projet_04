@@ -7,8 +7,10 @@
 	<input type="text" name="title" id="title" value="<?= $chapter->getTitle() ?>" />
 	<label for="content">Article</label>
 	<textarea name="content" id="content"><?= $chapter->getContent() ?></textarea>
-	<button type="submit" name="published" value="1">Publier</button>
-	<button type="submit" name="published" value="0">Enregistrer</button>
-	<a href="<?= HOST.'chapter.html/chapterId/'.$chapter->getId() ?>">Annuler</a>
+	<div class="buttons">
+		<button class="button" type="submit" name="published" value="1">Publier</button>
+		<button class="button" type="submit" name="published" value="0">Enregistrer</button>
+		<a class="button" href="<?= HOST.'chapter.html/chapterId/'.$chapter->getId() ?>">Annuler</a>
+	</div>
 </form>
 

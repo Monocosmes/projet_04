@@ -1,17 +1,23 @@
 <?php $pageTitle = 'Blog de Jean Laroche - '.$chapter->getTitle(); ?>
 
 <section>
-	<article id="newsViewPage">
-		<div>
+	<article id="chapter">
+		<div class="firstLine">
 			<div><?= $chapter->getCreationDateFr() ?></div>			
 			<h1 id="<?= $chapter->getId() ?>"><?= $chapter->getTitle() ?></h1>
 			<p>Chapitre <?= $chapter->getChapterNumber() ?></p>
-		</div>		
-
+		</div>	
 		<?= $chapter->getContent() ?>
-		<?= $this->editChapterButton($chapter) ?>
-		<?= $this->deleteChapterButton($chapter) ?>		
+		<div class="buttons">
+			<?= $this->publishChapter($chapter) ?>
+			<?= $this->editChapterButton($chapter) ?>
+			<?= $this->deleteChapterButton($chapter) ?>
+		</div>		
 	</article>
+	<div id="nextAndPrevious">
+		<?= $this->previousChapterButton($chapter) ?>
+		<?= $this->nextChapterButton($chapter) ?>
+	</div>
 </section>
 
 <section id="commentSection">
@@ -21,10 +27,14 @@
 			<div id="c-<?= $comment->getId() ?>">
 				<p>Par <?= $comment->getAuthorName() ?> le <?= $comment->getCreationDateFr() ?></p>
 				<div><?= $comment->getMessage() ?></div>
+
+				<div class="buttons">
+					<?= $this->editCommentButton($comment) ?>
+					<?= $this->deleteCommentButton($comment) ?>
+					<?= $this->reportComment($comment) ?>
+				</div>
 			</div>
-			<?= $this->editCommentButton($comment) ?>
-			<?= $this->deleteCommentButton($comment) ?>
-			<a href="<?= HOST.'reportComment/chapterId/'.$chapter->getId().'/commentId/'.$comment->getId() ?>">Signaler ce commentaire</a>
+
 			<div class="separator"></div>
 		<?php endforeach ?>
 	<?php else :?>

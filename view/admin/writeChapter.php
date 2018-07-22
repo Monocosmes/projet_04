@@ -6,7 +6,9 @@
 	<input type="text" name="title" id="title" />
 	<label for="content">Article</label>
 	<textarea name="content" id="content"></textarea>
-	<button type="submit" name="published" value="1">Publier</button>
-	<button type="submit" name="published" value="0">Enregistrer</button>
+	<div class="buttons">
+		<button class="button" type="submit" name="published" value="1">Publier</button>
+		<button class="button" type="submit" name="published" value="0">Enregistrer</button>
+	</div>
 </form>
 

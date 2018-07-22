@@ -1,9 +1,9 @@
 <?php if(!empty($user)) :?>
-	<?php $errors = $user->getError() ?>
-	<div id="errors">
-		<?php for($i = 0; $i < count($errors); $i++) :?>
-			<div><?= $errors[$i].'<br />' ?></div>
+	<div class="messages redBg">
+		<?php for($i = 0; $i < count($_SESSION['errors']); $i++) :?>
+			<div><?= $_SESSION['errors'][$i].'<br />' ?></div>
 		<?php endfor ?>
+		<?php unset($_SESSION['errors']) ?>
 	</div>
 <?php endif ?>
 

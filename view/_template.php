@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="<?= ASSETS ?>css/style.css">
-	<title><?= $pageTitle ?></title>
+	<title><?= (isset($pageTitle))?$pageTitle:'Blog de Jean Laroche' ?></title>
 </head>
 <body>
 	<header>
@@ -23,11 +23,17 @@
 
 	<?= $content ?>
 
+	<footer>
+		<div>Nombre de billets publiés : <?= $footer->getChapterNumber() ?></div>
+		<div>Nombre de commentaires publiés : <?= $footer->getCommentNumber() ?></div>
+		<div>Nombre de membres inscrits : <?= $footer->getUserNumber() ?></div>
+	</footer>
+
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="<?= ASSETS ?>tinymce/js/tinymce.min.js"></script>
   	<script>tinymce.init({ selector:'textarea' });</script>
   	<script src="<?= ASSETS ?>js/main"></script>
-  	<script src="<?= ASSETS ?>js/editPost"></script>
+  	<script src="<?= ASSETS ?>js/editComment"></script>
 
 </body>
 </html>
