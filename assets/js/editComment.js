@@ -19,7 +19,7 @@ class EditPost
 		this.isActivated = false;
 		this.$1.empty();
 		this.$1.hide().append(this.$3).fadeIn(1000);
-		this.targetButton.insertAfter(this.$1);
+		this.targetButton.append(this.$1 > '.buttons');
 
 		this.addEvents();
 	}
@@ -38,14 +38,14 @@ class EditPost
 		if(!this.isActivated)
 		{
 			this.isActivated = true;
-			this.chapterId = $('#newsViewPage h1').attr('id');
+			this.chapterId = $('#chapter h1').attr('id');
 			this.targetButton = $('a[id="'+e.target.id+'"]');
 			this.$1 = $('#c-'+e.target.id);
 			this.$2 = $('#c-'+e.target.id+' > div').html();
 			this.$3 = $('#c-'+e.target.id).html();
 			this.$1.empty();
 			$('a[id="'+e.target.id+'"]').remove();
-			this.$1.hide().append('<div id="editPost"><form method="post" action="'+this.host+'editComment"><input type="hidden" name="id" value="'+e.target.id+'" /><input type="hidden" name="chapterId" value="'+this.chapterId+'" /><textarea name="message">'+this.$2+'</textarea><button type="reset" class="buttons cancelEdit" name="cancelEdit">Annuler</button> <button class="buttons" type="submit">Valider</button></form></div>').fadeIn(1000);
+			this.$1.hide().append('<div id="editPost"><form method="post" action="'+this.host+'editComment"><input type="hidden" name="id" value="'+e.target.id+'" /><input type="hidden" name="chapterId" value="'+this.chapterId+'" /><textarea name="message">'+this.$2+'</textarea><div class="buttons"><button type="reset" class="button cancelEdit" name="cancelEdit">Annuler</button> <button class="button" type="submit">Valider</button></div></form></div>').fadeIn(1000);
 			
 			tinymce.init({ selector:'textarea' });
 

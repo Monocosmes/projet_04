@@ -1,40 +1,106 @@
-section
+/*####################################################################
+  ############################# ALL SITE #############################
+  ####################################################################*/
+body
+{
+	background-image: url('../img/alaska.jpg');
+	background-attachment:  fixed;
+	background-size: cover;
+	margin: 0;
+}
+
+#page
 {
 	display: flex;
+	margin: 0 auto;
+	width: 1400px;
+	background-color: rgba(255, 255, 255, 0.7);
+}
+
+.messages
+{
+	text-align: center;	
+	color: #fff;
+	font-weight: bold;
+	text-transform: uppercase;
+	padding: 10px 0;
+}
+
+.redBg
+{
+	background-color: #f00;
+}
+
+.greenBg
+{
+	background-color: #0a0;
+}
+
+.buttons
+{
+	margin: 25px 0;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.button
+{
+	background-color: #fff;
+	border: 2px #ccf solid;
+	border-radius: 25px;
+	padding: 10px;
+	margin: 0 5px;
+	color: #11f;
+	text-decoration: none;
+}
+
+/*#####################################################################
+  ############################# HOME PAGE #############################
+  #####################################################################*/
+
+#chapter
+{	
+	border: 1px black solid;
+	padding: 0 10px;
+	height: 100%;
+	margin: 0 auto;
+}
+
+#chapterTitle
+{
+	width: 70%;
+}
+
+/*####################################################################
+  ########################### CHAPTER PAGE ###########################
+  ####################################################################*/
+
+
+/*#####################################################################
+  ########################### CHAPTERS PAGE ###########################
+  #####################################################################*/
+
+.notPublished
+{
+	background-color: rgba(200, 200, 255, 0.3);
 }
 
 article
 {
 	width: 70%;
-	border: 1px black solid;
-	margin: 0 15px;
-	padding: 0 10px;
+	margin: 0 15px;	
 }
 
-article > div
+h1
+{
+	text-align: center;
+}
+
+.firstLine, #nextAndPrevious
 {
 	display: flex;
 	justify-content: space-between;
-}
-
-#errors
-{
-	text-align: center;
-	background-color: #f00;
-	color: #fff;
-	font-weight: bold;
-	text-transform: uppercase;
-	padding: 10px 0;
-}
-
-#success
-{
-	text-align: center;
-	background-color: #0a0;
-	color: #fff;
-	font-weight: bold;
-	text-transform: uppercase;
-	padding: 10px 0;
+	align-items: center;
 }
 
 aside
@@ -66,8 +132,8 @@ form
 .chapter
 {
 	border: 1px black solid;
-	width: 20%;
-	margin: 15px;
+	width: 30%;
+	margin: 15px 0.5%;
 	padding: 10px;
 }
 
@@ -79,4 +145,10 @@ form
 #hidden
 {
 	display: none;
+}
+
+.mce-edit-area, iframe, iframe html 
+{
+	height: 100% !important;
+
 }
