@@ -11,7 +11,7 @@ class User extends Entity
     protected $password;
     protected $rank;
     protected $creationDateFr;
-    protected $biography;
+    protected $isLocked;
 
     //Initializing getters
     public function getId() {return $this->id;}
@@ -19,8 +19,8 @@ class User extends Entity
     public function getEmail() {return $this->email;}
     public function getPassword() {return $this->password;}
     public function getRank() {return $this->rank;}
-    public function getCreationDateFr() {return $this->creationDate;}
-    public function getBiography() {return $this->biography;}
+    public function getCreationDateFr() {return $this->creationDateFr;}
+    public function getIsLocked() {return $this->isLocked;}
 
     //Initializing setters
     public function setId($id)
@@ -38,14 +38,14 @@ class User extends Entity
     		{
     			if(strlen($login) < 4 OR strlen($login) > 30)
     			{
-    				$this->error[] = 'Votre identifiant doit comporter entre 4 et 30 caractères.';
+    				$_SESSION['errors'][] = 'Votre identifiant doit comporter entre 4 et 30 caractères.';
     			}
     			
     			$this->login = $login;
     		}
     		else
     		{
-    			$this->error[] = 'Vous devez choisir un identifiant';
+    			$_SESSION['errors'][] = 'Vous devez choisir un identifiant';
     		}
     	}
     }
@@ -56,7 +56,7 @@ class User extends Entity
     	{
     		if(!preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email))
     		{
-    			$this->error[] = 'L\'email proposé n\'a pas une forme valide.';
+    			$_SESSION['errors'][] = 'L\'email proposé n\'a pas une forme valide.';
     		}
     		else
     		{
@@ -75,12 +75,12 @@ class User extends Entity
     		}
     		else
     		{
-    			$this->error[] = 'Vous devez choisir un mot de passe';
+    			$_SESSION['errors'][] = 'Vous devez choisir un mot de passe';
     		}    		
     	}
     	else
     	{
-    		$this->error[] = 'Votre mot de passe doit être une chaîne de caractères';
+    		$_SESSION['errors'][] = 'Votre mot de passe doit être une chaîne de caractères';
     	}
     }
 
@@ -99,12 +99,11 @@ class User extends Entity
     	}
     }
 
-    public function setBiography($biography)
+    public function setIsLocked($isLocked)
     {
-    	if(is_string($biography))
-    	{
-    		$this->biography = $biography;
-    	}
+    	$isLocked = (int) $isLocked;
+    	
+    	$this->isLocked = $isLocked;
     }
 
     public function getCryptedPassword()
@@ -123,7 +122,7 @@ class User extends Entity
     	}
     	else
     	{
-    		$this->error[] = 'Login ou mot de passe incorrect';
+    		$_SESSION['errors'][] = 'Login ou mot de passe incorrect';
     		return false;
     	}
     }
@@ -138,7 +137,7 @@ class User extends Entity
     		}
     		else
     		{
-    			$this->error[] = 'Les mots de passe ne correspondent pas';
+    			$_SESSION['errors'][] = 'Les mots de passe ne correspondent pas';
     			return false;
     		}
     	}
@@ -152,7 +151,7 @@ class User extends Entity
     	}
     	else
     	{
-    		$this->error[] = 'Votre identifiant doit comporter au moins 4 caractères';
+    		$_SESSION['errors'][] = 'Votre identifiant doit comporter au moins 4 caractères';
     		return false;
     	}
     }
@@ -165,7 +164,7 @@ class User extends Entity
     	}
     	else
     	{
-    		$this->error[] = 'Votre mot de passe doit comporter au moins 6 caractères';
+    		$_SESSION['errors'][] = 'Votre mot de passe doit comporter au moins 6 caractères';
     		return false;
     	}
     }
@@ -180,7 +179,7 @@ class User extends Entity
     	}
     	else
     	{
-    		$this->error[] = 'Cet email est déjà pris. Veuillez en choisir un autre';
+    		$_SESSION['errors'][] = 'Cet email est déjà pris. Veuillez en choisir un autre';
     		return false;
     	}
     }
@@ -195,7 +194,7 @@ class User extends Entity
     	}
     	else
     	{
-    		$this->error[] = 'Cet identifiant est déjà pris. Veuillez en choisir un autre';
+    		$_SESSION['errors'][] = 'Cet identifiant est déjà pris. Veuillez en choisir un autre';
     		return false;
     	}
     }
@@ -208,7 +207,7 @@ class User extends Entity
     	}
     	else
     	{
-    		$this->error[] = 'Login ou mot de passe incorrect';
+    		$_SESSION['errors'][] = 'Login ou mot de passe incorrect';
     		return false;
     	}
     }

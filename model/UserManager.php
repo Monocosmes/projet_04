@@ -17,6 +17,11 @@ class UserManager extends Manager
         return $this->db->lastInsertId();
     }
 
+    public function count()
+    {
+        return $this->db->query('SELECT COUNT(*) FROM user')->fetchColumn();
+    }
+
     public function deleteUser(User $user)
     {
     	$req = $this->db->prepare('DELETE FROM user WHERE id = :id');
@@ -30,12 +35,12 @@ class UserManager extends Manager
 
         if(is_int($info))
         {
-            $req = $this->db->prepare('SELECT id, login, email, password, rank, DATE_FORMAT(creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, biography FROM user WHERE id = :id');
+            $req = $this->db->prepare('SELECT id, login, email, password, rank, DATE_FORMAT(creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, isLocked FROM user WHERE id = :id');
             $req->bindValue(':id', $info, PDO::PARAM_INT);
         }
         else
         {
-            $req = $this->db->prepare('SELECT id, login, email, password, rank, DATE_FORMAT(creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, biography FROM user WHERE login = :login OR email = :login');
+            $req = $this->db->prepare('SELECT id, login, email, password, rank, DATE_FORMAT(creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, isLocked FROM user WHERE login = :login OR email = :login');
             $req->bindValue(':login', $info);
         }
         

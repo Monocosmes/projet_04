@@ -15,6 +15,8 @@ class Chapter extends Entity
     protected $editDate;
     protected $published;
     protected $commentNumber;
+    protected $previousChapterId;
+    protected $nextChapterId;
     
     //Initializing getters
     public function getId() {return $this->id;}
@@ -27,6 +29,8 @@ class Chapter extends Entity
     public function getEditDate() {return $this->editDate;}
     public function getPublished() {return $this->published;}
     public function getCommentNumber() {return $this->commentNumber;}
+    public function getPreviousChapterId() {return $this->previousChapterId;}
+    public function getNextChapterId() {return $this->nextChapterId;}
 
     //Initializing setters
     public function setId($id)
@@ -102,5 +106,21 @@ class Chapter extends Entity
         $commentNumber = (int) $commentNumber;
         
         $this->commentNumber = $commentNumber;
+    }
+
+    public function setPreviousChapterId()
+    {
+        $chapterManager = new ChapterManager();
+        $chapterId = $chapterManager->getPreviousChapter($this->id);
+
+        $this->previousChapterId = ($chapterId['id'])?$chapterId['id']:$this->id;
+    }
+
+    public function setNextChapterId()
+    {
+        $chapterManager = new ChapterManager();
+        $chapterId = $chapterManager->getNextChapter($this->id);
+        
+        $this->nextChapterId = ($chapterId['id'])?$chapterId['id']:$this->id;
     }
 }

@@ -20,6 +20,11 @@ class CommentManager extends Manager
         return $this->db->lastInsertId();
     }
 
+    public function count()
+    {
+        return $this->db->query('SELECT COUNT(*) FROM comment')->fetchColumn();
+    }
+
     public function deleteComment($id)
     {
     	$req = $this->db->prepare('DELETE FROM comment WHERE id = :id');

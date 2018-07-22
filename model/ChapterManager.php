@@ -22,10 +22,23 @@ class ChapterManager extends Manager
         return $this->db->lastInsertId();
     }
 
+    public function count()
+    {
+        return $this->db->query('SELECT COUNT(*) FROM chapter')->fetchColumn();
+    }
+
     public function deleteChapter($chapterId)
     {
     	$req = $this->db->prepare('DELETE FROM chapter WHERE id = :id');
         $req->bindValue(':id', $chapterId, PDO::PARAM_INT);
+        $req->execute();
+    }
+
+    public function publishChapter($chapterId, $isPublished)
+    {
+        $req = $this->db->prepare('UPDATE chapter SET published = :isPublished WHERE id = :id');
+        $req->bindValue(':id', $chapterId, PDO::PARAM_INT);
+        $req->bindValue(':isPublished', (int) $isPublished, PDO::PARAM_INT);
         $req->execute();
     }
 
@@ -57,18 +70,40 @@ class ChapterManager extends Manager
     	return ($data)?new Chapter($data):'';
     }
 
-    public function getLastChapter()
+    public function getLastChapter($start = 0)
     {
         $this->db->query('SET lc_time_names = \'fr_FR\'');
-        $req = $this->db->query('
+        $req = $this->db->prepare('
             SELECT chapter.id, authorId, chapterNumber, title, content, DATE_FORMAT(chapter.creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, editDate, published, commentNumber, user.login AS authorName
             FROM chapter
             LEFT JOIN user ON authorId = user.id
+            WHERE published = 1
             ORDER BY chapter.creationDate
-            DESC LIMIT 0, 1');
+            DESC LIMIT :start, 1');
+        $req->bindValue(':start', $start, PDO::PARAM_INT);
+        $req->execute();
+
         $data = $req->fetch(PDO::FETCH_ASSOC);
 
         return ($data)?new Chapter($data):'';
+    }
+
+    public function getPreviousChapter($id)
+    {
+        $req = $this->db->prepare('SELECT id FROM chapter WHERE id < :id AND published = 1 ORDER BY id DESC LIMIT 0, 1');
+        $req->bindValue(':id', $id, PDO::PARAM_INT);
+        $req->execute();
+      
+        return $req->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getNextChapter($id)
+    {
+        $req = $this->db->prepare('SELECT id FROM chapter WHERE id > :id AND published = 1 LIMIT 0, 1');
+        $req->bindValue(':id', $id, PDO::PARAM_INT);
+        $req->execute();
+      
+        return $req->fetch(PDO::FETCH_ASSOC);        
     }
 
     public function getAllChapters()
@@ -80,8 +115,7 @@ class ChapterManager extends Manager
             SELECT chapter.id, authorId, chapterNumber, title, content, DATE_FORMAT(chapter.creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, editDate, published, commentNumber, user.login AS authorName
             FROM chapter
             LEFT JOIN user ON authorId = user.id
-            ORDER BY chapter.creationDate
-            DESC');
+            ORDER BY chapterNumber');
 
     	while($data = $req->fetch(PDO::FETCH_ASSOC))
     	{
