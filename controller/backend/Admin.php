@@ -45,12 +45,24 @@ class Admin
         $myView->redirect('home.html');
     }
 
+    public function publishChapter($params)
+    {
+        extract($params);
+
+        $chapterManager = new ChapterManager();
+        $chapterManager->publishChapter($chapterId, $publish);
+
+        $myView = new View();
+        $myView->redirect('chapter.html/chapterId/'.$chapterId);
+    }
+
     public function showDashboard($params)
     {
+        $footer = new Footer();
         $commentManager = new CommentManager();
         $comments = $commentManager->getReportedComments();
 
-        $elements = ['comments' => $comments];
+        $elements = ['comments' => $comments, 'footer' => $footer];
 
         $myView = new View('admin/dashboard');
         $myView->render($elements);
@@ -60,10 +72,11 @@ class Admin
     {
         extract($params);
 
+        $footer = new Footer();
         $chapterManager = new ChapterManager();
         $chapter = $chapterManager->getChapter($chapterId);
 
-        $elements = ['chapter' => $chapter];
+        $elements = ['chapter' => $chapter, 'footer' => $footer];
 
         $myView = new View('admin/editChapter');
         $myView->render($elements);
@@ -71,8 +84,12 @@ class Admin
 
     public function showWriteChapter($params)
     {
-    	$myView = new View('admin/writeChapter');
-        $myView->render();
+    	$footer = new Footer();
+
+        $elements = ['footer' => $footer];
+
+        $myView = new View('admin/writeChapter');
+        $myView->render($elements);
     }    
 
     public function updateChapter($params)

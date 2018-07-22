@@ -1,55 +1,70 @@
 <?php
 
 /**
- * summary
+ * The Entry class handle everything about connexion and register.
  */
 class Entry
 {
     public function showSigninPage($params)
     {
-        $success = ($params)?$params:[];
+        $footer = new Footer();
+
+        $elements = ['footer' => $footer, 'params' => $params];
 
         $myView = new View('entry/signin');
-        $myView->render($success);
+        $myView->render($elements);
     }
 
     public function showSignupPage($params)
     {
+    	$footer = new Footer();
+
+        $elements = ['footer' => $footer];
+
     	$myView = new View('entry/signup');
-        $myView->render();
+        $myView->render($elements);
     }
 
     public function signin($params)
     {
+        $footer = new Footer();
+
         $userManager = new UserManager();
         $user = new User(['login' => $_POST['login']]);
 
-        $elements = ['user' => $user];
+        $elements = ['user' => $user, 'footer' => $footer];
 
         if($user->isLoginValid())
         {
         	$user = $userManager->getUser($_POST['login']);
 
-        	$elements = ['user' => $user];
-
-        	if($user->isPasswordValid($_POST['password']))
+        	$elements = ['user' => $user, 'footer' => $footer];
+        	if(!$user->getIsLocked())
         	{
-        	    session_start();
-	
-        	    $_SESSION['id'] = $user->getId();
-        	    $_SESSION['login'] = $user->getLogin();
-        	    $_SESSION['email'] = $user->getEmail();
-        	    $_SESSION['rank'] = $user->getRank();
-        	    $_SESSION['creationDate'] = $user->getCreationDateFr();
-        	    $_SESSION['biography'] = $user->getBiography();
-        	    $_SESSION['isLogged'] = true;
-	
-        	    $myView = new View();
-        	    $myView->redirect('home.html');
+        		if($user->isPasswordValid($_POST['password']))
+        		{	
+        		    $_SESSION['id'] = $user->getId();
+        		    $_SESSION['login'] = $user->getLogin();
+        		    $_SESSION['email'] = $user->getEmail();
+        		    $_SESSION['rank'] = $user->getRank();
+        		    $_SESSION['creationDate'] = $user->getCreationDateFr();
+        		    $_SESSION['isLocked'] = $user->getIsLocked();
+        		    $_SESSION['isLogged'] = true;
+		
+        		    $myView = new View();
+        		    $myView->redirect('home.html');
+        		}
+        		else
+        		{
+        			$myView = new View('signin.html');
+        			$myView->render($elements);
+        		}
         	}
         	else
         	{
-        		$myView = new View('entry/signin');
+        		$_SESSION['errors'][] = "Ce compte est bloqué";
+
+        		$myView = new View('signin.html');
         		$myView->render($elements);
         	}
         }
@@ -80,12 +95,16 @@ class Entry
         	$userManager = new UserManager();
         	$userId = $userManager->addUser($user);
 
+        	$_SESSION['message'] = 'Bienvenue parmis nous. Connectez-vous sans plus attendre !';
+
         	$myView = new View();
-        	$myView->redirect('signin.html/success/1');
+        	$myView->redirect('signin.html');
         }
         else
         {
-        	$elements = ['user' => $user];
+        	$footer = new Footer();
+
+        	$elements = ['user' => $user, 'footer' => $footer];
 
         	$myView = new View('entry/signup');
         	$myView->render($elements);
