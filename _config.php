@@ -14,6 +14,8 @@ class MyAutoload
         if(!isset($_SESSION['id']))
         {
             $_SESSION['id'] = 0;
+            $_SESSION['login'] = '';
+            $_SESSION['rank'] = 1;
         }
 
     	spl_autoload_register(array(__CLASS__, 'autoload'));
