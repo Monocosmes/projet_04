@@ -24,6 +24,7 @@ class Router
         'dashboard.html'    => ['controller' => 'Admin', 'method' => 'showDashboard'],
         'deleteChapter'     => ['controller' => 'Admin', 'method' => 'deleteChapter'],
         'editChapter.html'  => ['controller' => 'Admin', 'method' => 'showEditPage'],
+        'publishChapter'    => ['controller' => 'Admin', 'method' => 'publishChapter'],
         'updateChapter'     => ['controller' => 'Admin', 'method' => 'updateChapter'],
         'writeChapter.html' => ['controller' => 'Admin', 'method' => 'showWriteChapter'],
     ];
@@ -81,8 +82,8 @@ class Router
         }
         else
         {
-            $myView = new View('404');
-            $myView->render();
+            $home = new Home();
+            $home->show404Page($params);
         }
     }
 }

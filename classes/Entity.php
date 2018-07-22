@@ -5,8 +5,6 @@
  */
 abstract class Entity
 {
-    protected $error = [];
-
     public function __construct(array $data = [])
     {
         if(!empty($data))
@@ -26,11 +24,6 @@ abstract class Entity
     			$this->$method($value);
     		}
     	}
-    }
-
-    public function getError()
-    {
-    	return $this->error;
     }
 
     public function isValid($data)
