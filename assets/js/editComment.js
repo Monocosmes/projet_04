@@ -38,7 +38,7 @@ class EditPost
 		if(!this.isActivated)
 		{
 			this.isActivated = true;
-			this.chapterId = $('#chapter h1').attr('id');
+			this.chapterId = $('#chapter h3').attr('id');
 			this.targetButton = $('a[id="'+e.target.id+'"]');
 			this.$1 = $('#c-'+e.target.id);
 			this.$2 = $('#c-'+e.target.id+' > div').html();
