@@ -1,7 +1,7 @@
 <?php $pageTitle = 'Blog de Jean Laroche'; ?>
 
-<?php if(!empty($user)) :?>
-	<div class="message redBg">
+<?php if(isset($_SESSION['errors'])) :?>
+	<div class="messages redBg">
 		<?php for($i = 0; $i < count($_SESSION['errors']); $i++) :?>
 			<div><?= $_SESSION['errors'][$i].'<br />' ?></div>
 		<?php endfor ?>
@@ -15,11 +15,18 @@
 <?php endif ?>
 
 <section>
-	<form method="post" action="signin">
-		<label for="login">Pseudo</label>
-		<input type="text" name="login" id="login" value="<?= (!empty($user))?htmlspecialchars($user->getLogin()):''; ?>">
-		<label>Mot de passe</label>
-		<input type="password" name="password" id="password">
-		<input type="submit" value="Envoyer">
-	</form>
+
+	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor container">Connexion</h2>
+
+	<div id="containerForm" class="container mainBgColor mainBorder">
+		<form method="post" action="signin">
+			<label for="login">Identifiant / Email</label>
+			<input type="text" name="login" id="login" value="<?= (!empty($user))?htmlspecialchars($user->getLogin()):''; ?>">
+			<label for="password">Mot de passe</label>
+			<input type="password" name="password" id="password">
+			<div class="buttons">
+				<button class="button" type="submit">Envoyer</button>
+			</div>
+		</form>
+	</div>
 </section>
