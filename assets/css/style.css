@@ -1,3 +1,35 @@
+/*###################################################################
+  ############################## POPUP ##############################
+  ###################################################################*/
+
+#popupContainer
+{
+	width: 100%;
+	max-height: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#popup
+{
+	position: fixed;
+	width: 100%;
+	top: 150px;	
+}
+
+#frame
+{	
+	background-color: #aaf;	
+	display: flex;
+	flex-direction: column;
+	padding: 1.25%;
+	max-width: 400px;
+	margin: 0 auto;
+	text-align: center;
+}
+
 /*####################################################################
   ############################# ALL SITE #############################
   ####################################################################*/
@@ -7,14 +39,97 @@ body
 	background-attachment:  fixed;
 	background-size: cover;
 	margin: 0;
+	padding: 0;
 }
 
-#page
+header
+{
+	background-color: rgba(200, 200, 240, 0.8);
+	padding: 5px 0;
+	margin-bottom: 30px; 
+}
+
+article, #noChapter, #dashboard
+{
+	width: 70%;
+	height: 100%;
+}
+
+h1, #noChapter, .chapterNumber
+{
+	text-align: center;
+}
+
+#pageTitle
+{
+	width: 70%;
+	padding: 20px 10px;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+input
+{
+	height: 30px;
+	margin: 10px 0;
+	padding: 0 10px;
+}
+
+footer
+{
+	justify-content: space-around;
+	background-color: rgba(200, 200, 240, 0.8);
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #333;
+	padding: 50px 0;
+	margin-top: 30px;
+	text-align: center;
+}
+
+.container
+{
+	max-width: 1400px;
+	margin: 0 auto;
+}
+
+.mainBgColor
+{
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+.mainBorder
+{
+	border: 2px #ccf solid;
+}
+
+.center
+{
+	margin: 0 auto;
+}
+
+a
+{
+	text-decoration: none;
+}
+
+.displayFlex
 {
 	display: flex;
-	margin: 0 auto;
-	width: 1400px;
-	background-color: rgba(255, 255, 255, 0.7);
+}
+
+.uppercase
+{
+	text-transform: uppercase;
+}
+
+.menu
+{
+	justify-content: space-around;
+	flex-wrap: wrap;
+	list-style-type: none;
+	font-weight: bold;
+	margin: 50px 0;
 }
 
 .messages
@@ -23,7 +138,8 @@ body
 	color: #fff;
 	font-weight: bold;
 	text-transform: uppercase;
-	padding: 10px 0;
+	padding: 20px 0;
+	margin-bottom: 30px;
 }
 
 .redBg
@@ -36,11 +152,22 @@ body
 	background-color: #0a0;
 }
 
+.redText
+{
+	color: #f00;
+}
+
+.whiteText
+{
+	color: #fff;
+}
+
 .buttons
 {
 	margin: 25px 0;
 	display: flex;
 	justify-content: flex-end;
+	flex-wrap: wrap;
 }
 
 .button
@@ -52,29 +179,114 @@ body
 	margin: 0 5px;
 	color: #11f;
 	text-decoration: none;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.separator
+{
+	width: 90%;
+	border-top: 1px black solid;
+	margin: 30px auto;
+}
+
+@media all and (max-width: 768px)
+{
+	.container
+	{
+		max-width: unset;
+		width: 100%;
+	}
+
+	article, #noChapter, #dashboard
+	{
+		width: unset;
+	}
+
+	#pageTitle
+	{
+		width: unset;
+	}
 }
 
 /*#####################################################################
   ############################# HOME PAGE #############################
   #####################################################################*/
 
-#chapter
-{	
-	border: 1px black solid;
-	padding: 0 10px;
-	height: 100%;
-	margin: 0 auto;
+aside
+{
+	width: 30%;
+	height: 100%;	
 }
 
-#chapterTitle
+aside > div
 {
-	width: 70%;
+	margin: 0 0 15px 15px;
+	padding: 5px 10px;
+}
+
+.excerpt
+{
+	margin-bottom: 15px;
+}
+
+.excerpt, #noChapter
+{
+	padding: 10px;
+}
+
+@media all and (max-width: 768px)
+{
+	#main
+	{
+		flex-direction: column-reverse;
+	}
+
+	aside
+	{
+		width: unset;
+	}
+
+	aside > div
+	{
+		margin: 0 0 15px 0;
+	}
 }
 
 /*####################################################################
   ########################### CHAPTER PAGE ###########################
   ####################################################################*/
 
+#chapter, #dashboard
+{
+	padding: 10px;
+}
+
+.firstLine, #nextAndPrevious
+{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#nextAndPrevious
+{
+	width: 70%;
+	margin: 15px auto;
+}
+
+#commentSection, #containerForm
+{
+	
+	width: 70%;
+	padding: 10px;
+	margin: 15px auto;
+}
+
+#nextChapter
+{
+	visibility: hidden;
+}
 
 /*#####################################################################
   ########################### CHAPTERS PAGE ###########################
@@ -85,70 +297,46 @@ body
 	background-color: rgba(200, 200, 255, 0.3);
 }
 
-article
-{
-	width: 70%;
-	margin: 0 15px;	
-}
-
-h1
-{
-	text-align: center;
-}
-
-.firstLine, #nextAndPrevious
-{
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-
-aside
-{
-	width: 30%;
-	border: 1px black solid;
-	margin: 0 15px;
-	padding: 5px 10px;
-}
-
 form
 {
 	display: flex;
 	flex-direction: column;
 }
 
-.separator
-{
-	width: 90%;
-	border-top: 1px black solid;
-	margin: 10px auto;
-}
-
 .chapters
 {
+	display: flex;
 	flex-wrap: wrap;
+	justify-content: space-between;
 }
 
 .chapter
 {
 	border: 1px black solid;
 	width: 30%;
-	margin: 15px 0.5%;
+	margin: 15px auto;
 	padding: 10px;
 }
 
-#commentSection
+@media all and (max-width: 768px)
 {
-	flex-direction: column;
+	.chapters
+	{
+		display: block;
+	}
+
+	.chapter
+	{
+		width: unset;
+	}
 }
 
-#hidden
-{
-	display: none;
-}
 
-.mce-edit-area, iframe, iframe html 
-{
-	height: 100% !important;
+/*####################################################################
+  ########################### WRITING PAGE ###########################
+  ####################################################################*/
 
+#content
+{
+	min-height: 400px;
 }
