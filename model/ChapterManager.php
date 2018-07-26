@@ -106,7 +106,7 @@ class ChapterManager extends Manager
         return $req->fetch(PDO::FETCH_ASSOC);        
     }
 
-    public function getAllChapters()
+    public function getAllChapters($order, $where = null)
     {
     	$chapters = [];
 
@@ -115,7 +115,8 @@ class ChapterManager extends Manager
             SELECT chapter.id, authorId, chapterNumber, title, content, DATE_FORMAT(chapter.creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, editDate, published, commentNumber, user.login AS authorName
             FROM chapter
             LEFT JOIN user ON authorId = user.id
-            ORDER BY chapterNumber');
+            '.$where.'
+            ORDER BY '.$order);
 
     	while($data = $req->fetch(PDO::FETCH_ASSOC))
     	{

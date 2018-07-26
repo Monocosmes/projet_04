@@ -12,6 +12,7 @@ class User extends Entity
     protected $rank;
     protected $creationDateFr;
     protected $isLocked;
+    protected $commentPosted;
 
     //Initializing getters
     public function getId() {return $this->id;}
@@ -21,6 +22,7 @@ class User extends Entity
     public function getRank() {return $this->rank;}
     public function getCreationDateFr() {return $this->creationDateFr;}
     public function getIsLocked() {return $this->isLocked;}
+    public function getCommentPosted() {return $this->commentPosted;}
 
     //Initializing setters
     public function setId($id)
@@ -104,6 +106,13 @@ class User extends Entity
     	$isLocked = (int) $isLocked;
     	
     	$this->isLocked = $isLocked;
+    }
+
+    public function setCommentPosted($commentPosted)
+    {
+    	$commentPosted = (int) $commentPosted;
+
+    	$this->commentPosted = $commentPosted;
     }
 
     public function getCryptedPassword()

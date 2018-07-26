@@ -35,12 +35,12 @@ class UserManager extends Manager
 
         if(is_int($info))
         {
-            $req = $this->db->prepare('SELECT id, login, email, password, rank, DATE_FORMAT(creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, isLocked FROM user WHERE id = :id');
+            $req = $this->db->prepare('SELECT id, login, email, password, rank, DATE_FORMAT(creationDate, \'%a %d %M %Y\') AS creationDateFr, isLocked, commentPosted FROM user WHERE id = :id');
             $req->bindValue(':id', $info, PDO::PARAM_INT);
         }
         else
         {
-            $req = $this->db->prepare('SELECT id, login, email, password, rank, DATE_FORMAT(creationDate, \'%a %d %M %Y à %H:%i:%s\') AS creationDateFr, isLocked FROM user WHERE login = :login OR email = :login');
+            $req = $this->db->prepare('SELECT id, login, email, password, rank, DATE_FORMAT(creationDate, \'%a %d %M %Y\') AS creationDateFr, isLocked, commentPosted FROM user WHERE login = :login OR email = :login');
             $req->bindValue(':login', $info);
         }
         
@@ -84,5 +84,12 @@ class UserManager extends Manager
     	$req->execute();
     }
 
-    
+    public function updateCommentPosted($id, $commentPosted)
+    {
+        $req = $this->db->prepare('UPDATE user SET commentPosted = commentPosted + :commentPosted WHERE id = :id');
+        $req->bindValue(':commentPosted', $commentPosted, PDO::PARAM_INT);
+        $req->bindValue(':id', $id, PDO::PARAM_INT);
+
+        $req->execute();
+    }    
 }

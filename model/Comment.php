@@ -8,9 +8,13 @@ class Comment extends Entity
     protected $id;
     protected $chapterId;
     protected $authorId;
+    protected $authorName;
     protected $message;
     protected $creationDateFr;
     protected $reported;
+    protected $moderated;
+    protected $moderationId;
+    protected $moderationMessage;
 
     //Initializing getters
     public function getId() {return $this->id;}
@@ -20,6 +24,9 @@ class Comment extends Entity
     public function getMessage() {return $this->message;}
     public function getCreationDateFr() {return $this->creationDateFr;}
     public function getReported() {return $this->reported;}
+    public function getModerated() {return $this->moderated;}
+    public function getModerationId() {return $this->moderationId;}
+    public function getModerationMessage() {return $this->moderationMessage;}
 
     //Initializing setters
     public function setId($id)
@@ -72,5 +79,27 @@ class Comment extends Entity
     	$reported = (int) $reported;
     	
     	$this->reported = $reported;
+    }
+
+    public function setModerated($moderated)
+    {
+    	$moderated = (int) $moderated;
+
+    	$this->moderated = $moderated;
+    }
+
+    public function setModerationId($moderationId)
+    {
+    	$moderationId = (int) $moderationId;
+
+    	$this->moderationId = $moderationId;
+    }
+
+    public function setModerationMessage($moderationMessage)
+    {
+    	if(is_string($moderationMessage))
+    	{
+    		$this->moderationMessage = $moderationMessage;
+    	}
     }
 }
