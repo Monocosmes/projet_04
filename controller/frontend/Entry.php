@@ -5,6 +5,39 @@
  */
 class Entry
 {
+    public function deleteAccount($params)
+    {
+    	extract($params);
+
+    	if($userId == $_SESSION['id'] OR $_SESSION['rank'] > 3)
+    	{
+    		$userManager = new UserManager();
+    		$user = $userManager->getUser((int)$userId);
+
+    		if($user->getLogin() === 'Admin')
+    		{
+    			$_SESSION['errors'][] = 'Vous ne pouvez pas effacer le compte administrateur principal';
+
+    			$myView = new View();
+        		$myView->redirect('home.html');
+    		}
+    		else
+    		{
+    			$commentManager = new CommentManager();
+    			$commentManager->updateCommentAuthorId($userId, 4);
+
+    			$userManager->deleteUser($user);
+    			$myView = new View();
+        		$myView->redirect('signoff');
+    		}    		
+    	}
+    	else
+    	{
+    		$myView = new View();
+        	$myView->redirect('home.html');
+    	}
+    }
+
     public function showSigninPage($params)
     {
         $footer = new Footer();
@@ -39,6 +72,7 @@ class Entry
         	$user = $userManager->getUser($_POST['login']);
 
         	$elements = ['user' => $user, 'footer' => $footer];
+
         	if(!$user->getIsLocked())
         	{
         		if($user->isPasswordValid($_POST['password']))
@@ -56,7 +90,7 @@ class Entry
         		}
         		else
         		{
-        			$myView = new View('signin.html');
+        			$myView = new View('entry/signin');
         			$myView->render($elements);
         		}
         	}
@@ -64,7 +98,7 @@ class Entry
         	{
         		$_SESSION['errors'][] = "Ce compte est bloqué";
 
-        		$myView = new View('signin.html');
+        		$myView = new View('entry/signin');
         		$myView->render($elements);
         	}
         }

@@ -22,6 +22,9 @@ class Home
             $chapterManager = new ChapterManager();
             $chapterManager->changeCommentNumber($comment->getChapterId(), (1));
 
+            $userManager = new UserManager();
+            $userManager->updateCommentPosted($comment->getAuthorId(), 1);
+
             $myView = new View();
             $myView->redirect('chapter.html/chapterId/'.$comment->getChapterId().'#c-'.$commentId);
     	}
@@ -39,10 +42,14 @@ class Home
     	$num = -1;
 
     	$commentManager = new CommentManager();
+    	$comment = $commentManager->getComment($commentId);
     	$commentManager->deleteComment($commentId);
 
     	$chapterManager = new ChapterManager();
     	$chapterManager->changeCommentNumber($chapterId, $num);
+
+    	$userManager = new UserManager();
+        $userManager->updateCommentPosted($comment->getAuthorId(), $num);
 
     	$myView = new View();
         $myView->redirect('chapter.html/chapterId/'.$chapterId);
@@ -77,10 +84,10 @@ class Home
     	extract($params);
 
     	$commentManager = new CommentManager();
-    	$commentManager->reportComment($commentId);
+    	$commentManager->reportComment($commentId, 1);
 
     	$myView = new View();
-    	$myView->redirect('chapter.html/chapterId/'.$chapterId);
+    	$myView->redirect('chapter.html/chapterId/'.$chapterId.'#c-'.$commentId);
     }
 
     public function show404Page($params)
@@ -100,8 +107,19 @@ class Home
     	$chapterManager = new ChapterManager();
     	$chapter = $chapterManager->getChapter($chapterId);
 
-    	$chapter->setNextChapterId();
-		$chapter->setPreviousChapterId();
+    	$moderationManager = new ModerationManager();
+        $moderations = $moderationManager->getMessages();
+
+        foreach($moderations as $moderation)
+        {
+            $_SESSION['moderate'][] = $moderation->getModerationMessage();
+        }        
+
+    	if($chapter)
+		{
+			$chapter->setNextChapterId();
+			$chapter->setPreviousChapterId();
+		}
 
     	$commentManager = new CommentManager();
     	$comments = $commentManager->getAllComments($chapterId);
@@ -116,7 +134,20 @@ class Home
     {
     	$footer = new Footer();
     	$chapterManager = new ChapterManager();
-    	$chapters = $chapterManager->getAllChapters();    	
+
+    	if($_SESSION['rank'] > 3)
+    	{
+    		$order = 'chapterNumber';
+    		$where = null;
+		}
+		else
+		{
+			$order = 'chapterNumber';
+			$where = 'WHERE published = 1';
+		}
+
+
+    	$chapters = $chapterManager->getAllChapters($order, $where);    	
 
     	$elements = ['chapters' => $chapters, 'footer' => $footer];
 
@@ -128,17 +159,29 @@ class Home
     {
 		$footer = new Footer();
 		$chapterManager = new ChapterManager();
-		$chapter = $chapterManager->getLastChapter();
+		$userManager = new UserManager();
+		$user = $userManager->getUser($_SESSION['id']);
 
-		$chapter->setNextChapterId();
-		$chapter->setPreviousChapterId();
+		$order = 'chapter.creationDate DESC';
+		$where = 'WHERE published = 1';
 
-		$chapters = $chapterManager->getAllChapters();
+		$chapters = $chapterManager->getAllChapters($order, $where);
 
-		$elements = ['chapter' => $chapter, 'chapters' => $chapters, 'footer' => $footer];
+		$elements = ['user' => $user, 'chapters' => $chapters, 'footer' => $footer];
 
 		$myView = new View('home');
 		$myView->render($elements);		
-    }    
+    }
+
+    public function validComment($params)
+    {
+    	extract($params);
+
+    	$commentManager = new CommentManager();
+    	$commentManager->reportComment($commentId, (int) 0);
+
+    	$myView = new View();
+    	$myView->redirect('chapter.html/chapterId/'.$chapterId.'#c-'.$commentId);
+    }
 }
 	
