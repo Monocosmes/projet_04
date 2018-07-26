@@ -8,25 +8,32 @@ class Router
     private $request;
     private $routes =
     [
-        'addComment'        => ['controller' => 'Home', 'method' => 'addComment'],
-        'chapter.html'      => ['controller' => 'Home', 'method' => 'showChapter'],
-        'chapters.html'     => ['controller' => 'Home', 'method' => 'showChapters'],
-        'deleteComment'     => ['controller' => 'Home', 'method' => 'deleteComment'],
-        'editComment'       => ['controller' => 'Home', 'method' => 'editComment'],
-        'home.html'         => ['controller' => 'Home', 'method' => 'showHome'],
-        'reportComment'     => ['controller' => 'Home', 'method' => 'reportComment'],
-        'signin'            => ['controller' => 'Entry', 'method' => 'signin'],
-        'signin.html'       => ['controller' => 'Entry', 'method' => 'showSigninPage'],
-        'signup'            => ['controller' => 'Entry', 'method' => 'signup'],
-        'signup.html'       => ['controller' => 'Entry', 'method' => 'showSignupPage'],
-        'signoff'           => ['controller' => 'Entry', 'method' => 'signoff'],
-        'addChapter'        => ['controller' => 'Admin', 'method' => 'addChapter'],
-        'dashboard.html'    => ['controller' => 'Admin', 'method' => 'showDashboard'],
-        'deleteChapter'     => ['controller' => 'Admin', 'method' => 'deleteChapter'],
-        'editChapter.html'  => ['controller' => 'Admin', 'method' => 'showEditPage'],
-        'publishChapter'    => ['controller' => 'Admin', 'method' => 'publishChapter'],
-        'updateChapter'     => ['controller' => 'Admin', 'method' => 'updateChapter'],
-        'writeChapter.html' => ['controller' => 'Admin', 'method' => 'showWriteChapter'],
+        'addComment'            => ['controller' => 'Home', 'method' => 'addComment'],
+        'chapter.html'          => ['controller' => 'Home', 'method' => 'showChapter'],
+        'chapters.html'         => ['controller' => 'Home', 'method' => 'showChapters'],
+        'deleteComment'         => ['controller' => 'Home', 'method' => 'deleteComment'],
+        'editComment'           => ['controller' => 'Home', 'method' => 'editComment'],
+        'home.html'             => ['controller' => 'Home', 'method' => 'showHome'],
+        'reportComment'         => ['controller' => 'Home', 'method' => 'reportComment'],
+        'underConstruct.html'   => ['controller' => 'Home', 'method' => 'underConstruct'],
+        'validComment'          => ['controller' => 'Home', 'method' => 'validComment'],
+        'deleteAccount'         => ['controller' => 'Entry', 'method' => 'deleteAccount'],
+        'signin'                => ['controller' => 'Entry', 'method' => 'signin'],
+        'signin.html'           => ['controller' => 'Entry', 'method' => 'showSigninPage'],
+        'signup'                => ['controller' => 'Entry', 'method' => 'signup'],
+        'signup.html'           => ['controller' => 'Entry', 'method' => 'showSignupPage'],
+        'signoff'               => ['controller' => 'Entry', 'method' => 'signoff'],
+        'addChapter'            => ['controller' => 'Admin', 'method' => 'addChapter'],
+        'addModerationMessage'  => ['controller' => 'Admin', 'method' => 'addModerationMessage'],
+        'dashboard.html'        => ['controller' => 'Admin', 'method' => 'showDashboard'],
+        'deleteChapter'         => ['controller' => 'Admin', 'method' => 'deleteChapter'],
+        'editChapter.html'      => ['controller' => 'Admin', 'method' => 'showEditPage'],
+        'moderate'              => ['controller' => 'Admin', 'method' => 'moderate'],
+        'publishChapter'        => ['controller' => 'Admin', 'method' => 'publishChapter'],
+        'reportedComments.html' => ['controller' => 'Admin', 'method' => 'showReportedComments'],
+        'savedPages.html'       => ['controller' => 'Admin', 'method' => 'showSavedPages'],
+        'updateChapter'         => ['controller' => 'Admin', 'method' => 'updateChapter'],
+        'writeChapter.html'     => ['controller' => 'Admin', 'method' => 'showWriteChapter'],
     ];
 
     public function __construct($request)
@@ -64,7 +71,7 @@ class Router
     {
         $route = $this->getRoute();
         $params = $this->getParams();
-
+        
         if(isset($this->routes[$route]) AND $this->routes[$route]['controller'] === 'Admin' AND (!isset($_SESSION['rank']) OR $_SESSION['rank'] < 4))
         {
             $myView = new View();
