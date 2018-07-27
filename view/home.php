@@ -5,20 +5,19 @@
 		<?php for($i = 0; $i < count($_SESSION['errors']); $i++) :?>
 			<div><?= $_SESSION['errors'][$i].'<br />' ?></div>
 		<?php endfor ?>
-		<?php unset($_SESSION['errors']) ?>
 	</div>
 <?php endif ?>
 
-<section id="main" class="container">
+<section class="container">
 
-	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor container">Accueil</h2>
+	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor center">Accueil</h2>
 
-	<div class="displayFlex">
+	<div id="main" class="displayFlex">
 		<?php if($chapters) :?>
 			<article>
 			<?php foreach($chapters as $chapter) :?>
 				<div class="excerpt mainBgColor mainBorder">		
-					<h1><a href="<?= HOST.'chapter.html/chapterId/'.$chapter->getId() ?>"><?= $chapter->getTitle() ?></a></h1>
+					<h2 class="chapterTitle"><a href="<?= HOST.'chapter.html/chapterId/'.$chapter->getId() ?>"><?= $chapter->getTitle() ?></a></h2>
 					<div>
 						<div class="firstLine">
 							<p><?= $chapter->getCreationDateFr() ?></p>
@@ -61,8 +60,9 @@
 					<p>Votre Email : <?= $user->getEmail() ?></p>
 					<p>Inscrit le : <?= $user->getCreationDateFr() ?></p>
 					<p>Commentaires postés : <?= $user->getCommentPosted() ?></p>
-					<p><a href="<?= HOST.'signoff' ?>">Déconnexion</a></p>
-					<div class="center">
+					
+					<div id="profil">
+						<a class="button" href="<?= HOST.'signoff' ?>">Déconnexion</a>
 						<button class="button" id="deleteAccount" value="<?= $_SESSION['id'] ?>">Supprimer mon compte</button>
 					</div>
 					

@@ -5,23 +5,21 @@
 		<?php for($i = 0; $i < count($_SESSION['errors']); $i++) :?>
 			<div><?= $_SESSION['errors'][$i].'<br />' ?></div>
 		<?php endfor ?>
-		<?php unset($_SESSION['errors']) ?>
 	</div>
 <?php endif ?>
 
 <?php if(isset($_SESSION['message'])) :?>
 	<div class="messages greenBg"><?= $_SESSION['message'] ?></div>
-	<?php unset($_SESSION['message']) ?>
 <?php endif ?>
 
-<section>
+<section class="container">
 
-	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor container">Connexion</h2>
+	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor center">Connexion</h2>
 
-	<div id="containerForm" class="container mainBgColor mainBorder">
+	<div id="containerForm" class="center mainBgColor mainBorder">
 		<form method="post" action="signin">
 			<label for="login">Identifiant / Email</label>
-			<input type="text" name="login" id="login" value="<?= (!empty($user))?htmlspecialchars($user->getLogin()):''; ?>">
+			<input type="text" name="login" id="login"  value="<?= (isset($_SESSION['yourLogin']))?htmlspecialchars($_SESSION['yourLogin']):''; ?>">
 			<label for="password">Mot de passe</label>
 			<input type="password" name="password" id="password">
 			<div class="buttons">

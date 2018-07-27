@@ -5,12 +5,15 @@
 
 	<meta name="viewport" content="width=767, minimum-scale">
 
+	<link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,700" rel="stylesheet">
+
 	<link rel="stylesheet" type="text/css" href="<?= ASSETS ?>css/style.css">
 	<title><?= (isset($pageTitle))?$pageTitle:'Blog de Jean Laroche' ?></title>
 </head>
 <body>
 	<header>
 		<h1>Dernier billet pour l'Alaska</h1>
+		<p id="subtitle">Le nouveau livre de Jean Laroche</p>
 		<div>
 			<nav>
 				<ul class="displayFlex menu uppercase">

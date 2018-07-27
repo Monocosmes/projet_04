@@ -1,9 +1,11 @@
 <?php $pageTitle = 'Commentaires Signalés'; ?>
 
-<section>
-	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor container">Commentaires Signalés</h2>
+<section class="container">
+
+	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor center">Commentaires Signalés</h2>
+	
 	<?php if($comments) :?>
-		<article class="container mainBgColor mainBorder excerpt">
+		<article class="center mainBgColor mainBorder excerpt">
 			<?php foreach($comments as $comment) :?>
 					<div>
 						<div class="firstLine">

@@ -1,13 +1,12 @@
 <?php if(isset($_SESSION['message'])) :?>
 	<div class="messages greenBg"><?= $_SESSION['message'] ?></div>
-	<?php unset($_SESSION['message']) ?>
 <?php endif ?>
 
-<section>
+<section class="container">
 
-	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor container">Tableau de bord</h2>
+	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor center">Tableau de bord</h2>
 
-	<div id="dashboard" class="container mainBgColor mainBorder">
+	<div id="dashboard" class="mainBgColor mainBorder center">
 
 		<h2>Ajouter et gérer les billets</h2>
 		<p><a href="<?= HOST.'writeChapter.html' ?>">Ajouter un nouveau billet</a></p>

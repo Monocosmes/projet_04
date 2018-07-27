@@ -1,8 +1,8 @@
-<section>
+<section class="container">
 	
-	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor container">Page d'édition</h2>
+	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor center">Page d'édition</h2>
 
-	<article id="containerForm" class="container mainBgColor mainBorder">
+	<article id="containerForm" class="center mainBgColor mainBorder">
 		<form method="post" action="<?= HOST.'updateChapter/chapterId/'.$chapter->getId() ?>">
 			<input type="hidden" name="author" value="<?= (isset($_SESSION['isLogged']))?$_SESSION['id']:'' ?>" />
 			<input type="text" disabled="true" value="<?= $_SESSION['login'] ?>">

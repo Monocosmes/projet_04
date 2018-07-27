@@ -3,21 +3,20 @@
 		<?php for($i = 0; $i < count($_SESSION['errors']); $i++) :?>
 			<div><?= $_SESSION['errors'][$i].'<br />' ?></div>
 		<?php endfor ?>
-		<?php unset($_SESSION['errors']) ?>
 	</div>
 <?php endif ?>
 
-<section>
-	
-	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor container">Inscription</h2>
+<section class="container">
+
+	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor center">Inscription</h2>
 
 	<div id="containerForm" class="mainBgColor mainBorder">
 		<form method="post" action="signup">
 			<label for="login">Votre pseudo</label>
-			<input type="text" name="login" id="login" value="<?= (!empty($user))?htmlspecialchars($user->getLogin()):''; ?>">
+			<input type="text" name="login" id="login" value="<?= (isset($_SESSION['yourLogin']))?htmlspecialchars($_SESSION['yourLogin']):''; ?>">
 	
 			<label for="email">Votre Email</label>
-			<input type="email" name="email" id="email" value="<?= (!empty($user))?htmlspecialchars($user->getEmail()):''; ?>">
+			<input type="email" name="email" id="email" value="<?= (isset($_SESSION['yourEmail']))?htmlspecialchars($_SESSION['yourEmail']):''; ?>">
 	
 			<label for="password">Votre mot de passe</label>
 			<input type="password" name="password" id="password">
