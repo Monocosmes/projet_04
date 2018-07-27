@@ -73,16 +73,13 @@ class UserManager extends Manager
         return (bool) $req->fetchColumn();
     }
 
-    public function updateUser(User $user)
+    public function lockAccount($id, $lockAccount)
     {
-    	$req = $this->db->prepare('UPDATE user SET title = :title, content = :content, editDate = NOW(), published = :published WHERE id = :id');
-    	$req->bindValue(':title', $user->getTitle());
-    	$req->bindValue(':content', $user->getTitle());
-    	$req->bindValue(':published', $user->getPublished());
-    	$req->bindValue(':id', $user->getId(), PDO::PARAM_INT);
-
-    	$req->execute();
-    }
+        $req = $this->db->prepare('UPDATE user SET isLocked = :isLocked WHERE id = :id');
+        $req->bindValue(':isLocked', (int) $lockAccount, PDO::PARAM_INT);
+        $req->bindValue(':id', (int) $id, PDO::PARAM_INT);
+        $req->execute();
+    }    
 
     public function updateCommentPosted($id, $commentPosted)
     {

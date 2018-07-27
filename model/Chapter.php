@@ -57,9 +57,16 @@ class Chapter extends Entity
 
     public function setChapterNumber($chapterNumber)
     {
-        $chapterNumber = (int) $chapterNumber;        
-        
-        $this->chapterNumber = $chapterNumber;        
+        $chapterNumber = (int) $chapterNumber;
+
+        if($chapterNumber <= 0)
+        {
+            $_SESSION['errors'][] = 'Le numéro d\'un chapitre doit obligatoirement être une valeur numérique positive';
+        }
+        else
+        {                
+            $this->chapterNumber = $chapterNumber;
+        }
     }
 
     public function setTitle($title)
@@ -74,7 +81,7 @@ class Chapter extends Entity
     {
     	if(is_string($content))
     	{
-            $this->content = $content;
+            $this->content = $content;            
     	}
     }
 
@@ -119,8 +126,8 @@ class Chapter extends Entity
     public function setNextChapterId()
     {
         $chapterManager = new ChapterManager();
-        $chapterId = $chapterManager->getNextChapter($this->id);
+        $chapter = $chapterManager->getNextChapter($this->id);
         
-        $this->nextChapterId = ($chapterId['id'])?$chapterId['id']:$this->id;
+        $this->nextChapterId = ($chapter['id'])?$chapter['id']:$this->id;
     }
 }
