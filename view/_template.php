@@ -8,7 +8,7 @@
 	<link href="https://fonts.googleapis.com/css?family=EB+Garamond:400,700" rel="stylesheet">
 
 	<link rel="stylesheet" type="text/css" href="<?= ASSETS ?>css/style.css">
-	<title><?= (isset($pageTitle))?$pageTitle:'Blog de Jean Laroche' ?></title>
+	<title><?= (isset($pageTitle))?htmlspecialchars($pageTitle):'Blog de Jean Laroche' ?></title>
 </head>
 <body>
 	<header>
@@ -21,18 +21,30 @@
 					<li><a class="whiteText" href="<?= HOST.'chapters.html' ?>">Chapitres</a></li>
 					<li><a class="whiteText" href="<?= HOST.'contact.html' ?>">Contact</a></li>
 					<?= $this->dashboard() ?>
-					<?= $this->signLink() ?>
+					<?= $this->displaySignLink() ?>
 				</ul>
 			</nav>
 		</div>
 	</header>
 
+	<?php if(isset($_SESSION['errors'])) :?>
+		<div class="messages redBg container center">
+			<?php for($i = 0; $i < count($_SESSION['errors']); $i++) :?>
+				<div><?= htmlspecialchars($_SESSION['errors'][$i]).'<br />' ?></div>
+			<?php endfor ?>
+		</div>
+	<?php endif ?>
+
+	<?php if(isset($_SESSION['message'])) :?>
+		<div class="messages greenBg container center"><?= htmlspecialchars($_SESSION['message']) ?></div>
+	<?php endif ?>
+
 	<?= $content ?>
 
 	<footer class="displayFlex">
-		<div>Nombre de billets publiés : <?= $footer->getChapterNumber() ?></div>
-		<div>Nombre de commentaires publiés : <?= $footer->getCommentNumber() ?></div>
-		<div>Nombre de membres inscrits : <?= $footer->getUserNumber() ?></div>
+		<div>Nombre de billets publiés&nbsp;:&nbsp;<?= htmlspecialchars($footer->getChapterNumber()) ?></div>
+		<div>Nombre de commentaires publiés&nbsp;:&nbsp;<?= htmlspecialchars($footer->getCommentNumber()) ?></div>
+		<div>Nombre de membres inscrits&nbsp;:&nbsp;<?= htmlspecialchars($footer->getUserNumber()) ?></div>
 	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

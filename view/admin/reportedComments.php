@@ -3,13 +3,13 @@
 <section class="container">
 
 	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor center">Commentaires Signalés</h2>
-	
+
 	<?php if($comments) :?>
 		<article class="center mainBgColor mainBorder excerpt">
 			<?php foreach($comments as $comment) :?>
 					<div>
 						<div class="firstLine">
-							<div>Publié par <?= $comment->getAuthorName() ?> le <?= $comment->getCreationDateFr() ?></div>			
+							<div>Publié par <?= htmlspecialchars($comment->getAuthorName()) ?> le <?= htmlspecialchars($comment->getCreationDateFr()) ?></div>			
 						</div>
 						
 						<?= substr($comment->getMessage(), 0, 500).'...' ?>

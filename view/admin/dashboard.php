@@ -1,7 +1,3 @@
-<?php if(isset($_SESSION['message'])) :?>
-	<div class="messages greenBg"><?= $_SESSION['message'] ?></div>
-<?php endif ?>
-
 <section class="container">
 
 	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor center">Tableau de bord</h2>

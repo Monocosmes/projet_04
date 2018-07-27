@@ -4,12 +4,12 @@
 
 	<article id="containerForm" class="center mainBgColor mainBorder">
 		<form method="post" action="<?= HOST.'updateChapter/chapterId/'.$chapter->getId() ?>">
-			<input type="hidden" name="author" value="<?= (isset($_SESSION['isLogged']))?$_SESSION['id']:'' ?>" />
-			<input type="text" disabled="true" value="<?= $_SESSION['login'] ?>">
+			<input type="hidden" name="author" value="<?= (isset($_SESSION['isLogged']))?htmlspecialchars($_SESSION['id']):'' ?>" />
+			<input type="text" disabled="true" value="<?= htmlspecialchars($_SESSION['login']) ?>">
 			<label for="chapterNumber">Numéro du chapitre</label>
-			<input type="text" name="chapterNumber" id="chapterNumber" value="<?= $chapter->getChapterNumber() ?>">
+			<input type="text" name="chapterNumber" id="chapterNumber" value="<?= htmlspecialchars($chapter->getChapterNumber()) ?>">
 			<label for="title">Titre du chapitre</label>
-			<input type="text" name="title" id="title" value="<?= $chapter->getTitle() ?>" />
+			<input type="text" name="title" id="title" value="<?= htmlspecialchars($chapter->getTitle()) ?>" />
 			<label for="content">Article</label>
 			<textarea name="content" id="content"><?= $chapter->getContent() ?></textarea>
 			<div class="buttons">
