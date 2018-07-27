@@ -33,6 +33,8 @@ class Entry
     	}
     	else
     	{
+    		$_SESSION['errors'][] = 'Vous n\'avez pas les droits pour effacer ce compte';
+
     		$myView = new View();
         	$myView->redirect('home.html');
     	}
@@ -40,38 +42,50 @@ class Entry
 
     public function showSigninPage($params)
     {
-        $footer = new Footer();
+        if($_SESSION['id'] === 0)
+        {
+        	$footer = new Footer();
 
-        $elements = ['footer' => $footer, 'params' => $params];
+        	$elements = ['footer' => $footer, 'params' => $params];
 
-        $myView = new View('entry/signin');
-        $myView->render($elements);
+        	$myView = new View('entry/signin');
+            $myView->render($elements);
+        }
+        else
+        {
+        	$myView = new View();
+            $myView->redirect('home.html');
+        }
     }
 
     public function showSignupPage($params)
     {
-    	$footer = new Footer();
-
-        $elements = ['footer' => $footer];
-
-    	$myView = new View('entry/signup');
-        $myView->render($elements);
+    	if($_SESSION['id'] === 0)
+        {
+    		$footer = new Footer();
+	
+        	$elements = ['footer' => $footer];
+	
+    		$myView = new View('entry/signup');
+        	$myView->render($elements);
+        }
+        else
+        {
+        	$myView = new View();
+            $myView->redirect('home.html');
+        }
     }
 
     public function signin($params)
     {
-        $footer = new Footer();
-
         $userManager = new UserManager();
         $user = new User(['login' => $_POST['login']]);
 
-        $elements = ['user' => $user, 'footer' => $footer];
+        $_SESSION['yourLogin'] = $_POST['login'];
 
         if($user->isLoginValid())
         {
         	$user = $userManager->getUser($_POST['login']);
-
-        	$elements = ['user' => $user, 'footer' => $footer];
 
         	if(!$user->getIsLocked())
         	{
@@ -90,22 +104,22 @@ class Entry
         		}
         		else
         		{
-        			$myView = new View('entry/signin');
-        			$myView->render($elements);
+        			$myView = new View();
+        			$myView->redirect('signin.html');
         		}
         	}
         	else
         	{
         		$_SESSION['errors'][] = "Ce compte est bloqué";
 
-        		$myView = new View('entry/signin');
-        		$myView->render($elements);
+        		$myView = new View();
+        		$myView->redirect('signin.html');
         	}
         }
         else
         {
-        	$myView = new View('entry/signin');
-        	$myView->render($elements);
+        	$myView = new View();
+        	$myView->redirect('signin.html');
         }
     }
 
@@ -117,6 +131,9 @@ class Entry
             'email' => strtolower($_POST['email']),
             'password' => $_POST['password'],
         ]);
+
+        $_SESSION['yourLogin'] = $_POST['login'];
+        $_SESSION['yourEmail'] = $_POST['email'];
 
         $isLoginAvailable = $user->isLoginExists();
         $isMailAvailable =	$user->isEmailExists();
@@ -136,12 +153,8 @@ class Entry
         }
         else
         {
-        	$footer = new Footer();
-
-        	$elements = ['user' => $user, 'footer' => $footer];
-
-        	$myView = new View('entry/signup');
-        	$myView->render($elements);
+        	$myView = new View();
+        	$myView->redirect('signup.html');
         }        
     }
 

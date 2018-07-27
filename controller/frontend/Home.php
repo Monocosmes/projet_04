@@ -14,25 +14,34 @@ class Home
     		'message' => $_POST['message'],
     	]);
 
-    	if($comment->isValid($_POST['message']) AND $comment->isValid($_POST['authorId']) AND $comment->isValid($_POST['chapterId']))
+    	if($comment->isValid($comment->getMessage()) AND $comment->isValid($comment->getAuthorId()) AND $comment->isValid($comment->getChapterId()))
     	{
-    		$commentManager = new CommentManager();
-            $commentId = $commentManager->addComment($comment);
+    		$userManager = new UserManager();
+            $user = $userManager->getUser($comment->getAuthorId());
 
-            $chapterManager = new ChapterManager();
-            $chapterManager->changeCommentNumber($comment->getChapterId(), (1));
-
-            $userManager = new UserManager();
-            $userManager->updateCommentPosted($comment->getAuthorId(), 1);
-
-            $myView = new View();
-            $myView->redirect('chapter.html/chapterId/'.$comment->getChapterId().'#c-'.$commentId);
+            if(!$user->getIsLocked())
+            {
+                $commentManager = new CommentManager();
+                $commentId = $commentManager->addComment($comment);
+    
+                $chapterManager = new ChapterManager();
+                $chapterManager->changeCommentNumber($comment->getChapterId(), (1));
+                
+                $userManager->updateCommentPosted($comment->getAuthorId(), 1);
+            }
+            else
+            {
+                $myView = new View();
+                $myView->redirect('signoff');
+            }            
     	}
     	else
     	{
-    		$myView = new View('404');
-            $myView->render();
+    		$_SESSION['content'] = $_POST['message'];    		
     	}
+
+    	$myView = new View();
+        $myView->redirect('chapter.html/chapterId/'.$comment->getChapterId().'#c-'.$commentId);
     }    
 
     public function deleteComment($params)
@@ -64,7 +73,7 @@ class Home
     		'message' => $_POST['message']
     	]);
 
-    	if($comment->isValid($_POST['message']) AND $comment->isValid($_POST['chapterId']) AND $comment->isValid($_POST['id']))
+    	if($comment->isValid($comment->getMessage()) AND $comment->isValid($comment->getChapterId()) AND $comment->isValid($comment->getId()))
     	{
     		$commentManager = new CommentManager();
             $commentManager->updateComment($comment);
@@ -74,8 +83,8 @@ class Home
     	}
     	else
     	{
-    		$myView = new View('404');
-            $myView->render();
+    		$myView = new View();
+            $myView->redirect('chapter.html/chapterId/'.$comment->getChapterId());
     	}
     }
 
@@ -170,18 +179,23 @@ class Home
 		$elements = ['user' => $user, 'chapters' => $chapters, 'footer' => $footer];
 
 		$myView = new View('home');
-		$myView->render($elements);		
+		$myView->render($elements);
     }
 
-    public function validComment($params)
+    public function showProfile($params)
     {
-    	extract($params);
+        extract($params);
 
-    	$commentManager = new CommentManager();
-    	$commentManager->reportComment($commentId, (int) 0);
+        $userData = (isset($userId))?(int) $userId:$userName;
 
-    	$myView = new View();
-    	$myView->redirect('chapter.html/chapterId/'.$chapterId.'#c-'.$commentId);
+        $footer = new Footer();
+        $userManager = new UserManager();
+        $user = $userManager->getUser($userData);
+
+        $elements = ['user' => $user, 'footer' => $footer];
+
+        $myView = new View('profile');
+        $myView->render($elements);
     }
 }
 	

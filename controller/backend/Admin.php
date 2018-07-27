@@ -15,8 +15,8 @@ class Admin
             'content' => $_POST['content'],
             'published' => $_POST['published']
         ]);
-
-        if($chapter->isValid($_POST['chapterNumber']) AND $chapter->isValid($_POST['title']) AND $chapter->isValid($_POST['content']) AND $chapter->isValid($_POST['author']))
+        
+        if($chapter->isValid($chapter->getChapterNumber()) AND $chapter->isValid($chapter->getTitle()) AND $chapter->isValid($chapter->getContent()) AND $chapter->isValid($chapter->getAuthorId))
     	{
     		$chapterManager = new ChapterManager();
             $chapterId = $chapterManager->addChapter($chapter);
@@ -25,9 +25,13 @@ class Admin
             $myView->redirect('chapter.html/chapterId/'.$chapterId);
     	}
     	else
-    	{
+    	{  
+            $_SESSION['chapterNumber'] = $_POST['chapterNumber'];
+            $_SESSION['content'] = $_POST['content'];
+            $_SESSION['title'] = $_POST['title'];
+
     		$myView = new View();
-            $myView->redirect('404');
+            $myView->redirect('writeChapter.html');
     	}    	
     }
 
@@ -35,21 +39,16 @@ class Admin
     {
         $moderation = new Moderation(['moderationMessage' => $_POST['moderationMessage']]);
 
-        if($moderation->isValid($_POST['moderationMessage']))
+        if($moderation->isValid($moderation->getModerationMessage()))
         {
             $moderationManager = new ModerationManager();
             $moderationManager->addMessage($moderation);
     
-            $_SESSION['message'] = 'Nouveau message de modération ajouté avec succés';
-    
-            $myView = new View();
-            $myView->redirect('dashboard.html');
+            $_SESSION['message'] = 'Nouveau message de modération ajouté avec succés';    
         }
-        else
-        {
-            $myView = new View();
-            $myView->redirect('404');
-        }
+        
+        $myView = new View();
+        $myView->redirect('dashboard.html');        
     }    
 
     public function deleteChapter($params)
@@ -77,6 +76,17 @@ class Admin
         $myView->redirect('home.html');
     }
 
+    public function lockAccount($params)
+    {
+        extract($params);
+
+        $userManager = new UserManager();
+        $userManager->lockAccount($userId, 1);
+
+        $myView = new View();
+        $myView->redirect('profile/userId/'.$userId);
+    }
+
     public function moderate($params)
     {
         $comment = new Comment
@@ -86,7 +96,7 @@ class Admin
             'moderationId' => (int) $_POST['moderationId'],
         ]);
 
-        if($comment->isValid($_POST['id']) AND $comment->isValid($_POST['chapterId']) AND $comment->isValid($_POST['moderationId']))
+        if($comment->isValid($comment->getId()) AND $comment->isValid($comment->getChapterId()) AND $comment->isValid($comment->getModerationId()))
         {
             $num = 1;
 
@@ -104,7 +114,7 @@ class Admin
         else
         {
             $myView = new View();
-            $myView->redirect('404');
+            $myView->redirect('chapter.html/chapterId/'.$comment->getChapterId());
         }
     }
 
@@ -167,6 +177,11 @@ class Admin
 
         $chapterManager = new ChapterManager();
         $chapters = $chapterManager->getAllChapters($order, $where);
+
+        $elements = ['chapters' => $chapters, 'footer' => $footer];
+
+        $myView = new View('chapters');
+        $myView->render($elements);
     }
 
     public function showWriteChapter($params)
@@ -177,7 +192,29 @@ class Admin
 
         $myView = new View('admin/writeChapter');
         $myView->render($elements);
-    }    
+    }
+
+    public function unlockAccount($params)
+    {
+        extract($params);
+
+        $userManager = new UserManager();
+        $userManager->lockAccount($userId, 0);
+
+        $myView = new View();
+        $myView->redirect('profile/userId/'.$userId);
+    }
+
+    public function unreportComment($params)
+    {
+        extract($params);
+
+        $commentManager = new CommentManager();
+        $commentManager->reportComment($commentId, (int) 0);
+
+        $myView = new View();
+        $myView->redirect('chapter.html/chapterId/'.$chapterId.'#c-'.$commentId);
+    }
 
     public function updateChapter($params)
     {
@@ -193,8 +230,13 @@ class Admin
             'published' => $_POST['published']
         ]);
 
-        $chapterManager = new ChapterManager();
-        $chapterManager->updateChapter($chapter);
+        if($chapter->isValid($chapter->getId()) AND $chapter->isValid($chapter->getAuthorId()) AND $chapter->isValid($chapter->getChapterNumber()) AND $chapter->isValid($chapter->getTitle()) AND $chapter->isValid($chapter->getContent()) AND $chapter->isValid($chapter->getPublished()))
+        {
+            $chapterManager = new ChapterManager();
+            $chapterManager->updateChapter($chapter);
+
+            $_SESSION['message'] = 'Le billet a bien été modifié';
+        }
 
         $myView = new View();
         $myView->redirect('chapter.html/chapterId/'.$chapter->getId());
