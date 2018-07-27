@@ -28,6 +28,14 @@ abstract class Entity
 
     public function isValid($data)
     {
-    	return !empty($data);
+    	if(!empty($data))
+    	{
+    		return true;
+    	}
+    	else
+    	{
+    		$_SESSION['errors'][] = 'Un ou plusieurs champs sont vides';
+    		return false;
+    	}
     }
 }
