@@ -5,8 +5,6 @@
 #popupContainer
 {
 	width: 100%;
-	max-height: 100%;
-	height: 100%;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -21,13 +19,22 @@
 
 #frame
 {	
-	background-color: #aaf;	
+	background-color: #ddf;	
 	display: flex;
 	flex-direction: column;
 	padding: 1.25%;
 	max-width: 400px;
 	margin: 0 auto;
 	text-align: center;
+}
+
+@media all and (max-width: 768px)
+{
+	#frame
+	{
+		max-width: unset;
+		font-size: 1.2em;
+	}
 }
 
 /*####################################################################
@@ -40,6 +47,7 @@ body
 	background-size: cover;
 	margin: 0;
 	padding: 0;
+	font-family: 'EB Garamond', serif;
 }
 
 header
@@ -49,29 +57,26 @@ header
 	margin-bottom: 30px; 
 }
 
-article, #noChapter, #dashboard
+section
 {
-	width: 70%;
+	max-width: 1400px;
+	margin: 0 auto;
+}
+
+article, #noChapter, #dashboard
+{	
 	height: 100%;
 }
 
-h1, #noChapter, .chapterNumber
+h1, #noChapter, .chapterNumber, .chapterTitle, #subtitle
 {
-	text-align: center;
-}
-
-#pageTitle
-{
-	width: 70%;
-	padding: 20px 10px;
-	margin-bottom: 30px;
 	text-align: center;
 }
 
 input
 {
 	height: 30px;
-	margin: 10px 0;
+	margin: 0 0 20px 0;
 	padding: 0 10px;
 }
 
@@ -87,10 +92,14 @@ footer
 	text-align: center;
 }
 
+a
+{
+	text-decoration: none;
+}
+
 .container
 {
-	max-width: 1400px;
-	margin: 0 auto;
+	width: 70%;
 }
 
 .mainBgColor
@@ -108,17 +117,12 @@ footer
 	margin: 0 auto;
 }
 
-a
-{
-	text-decoration: none;
-}
-
 .displayFlex
 {
 	display: flex;
 }
 
-.uppercase
+.uppercase, label
 {
 	text-transform: uppercase;
 }
@@ -129,7 +133,13 @@ a
 	flex-wrap: wrap;
 	list-style-type: none;
 	font-weight: bold;
-	margin: 50px 0;
+	margin: 40px 0;
+	font-size: 1.15em;
+}
+
+.menu li
+{
+	margin: 10px;
 }
 
 .messages
@@ -181,6 +191,8 @@ a
 	text-decoration: none;
 	text-transform: uppercase;
 	cursor: pointer;
+	font-size: 0.9em;
+	font-family: 'EB Garamond', serif;
 }
 
 .separator
@@ -190,22 +202,41 @@ a
 	margin: 30px auto;
 }
 
+#subtitle
+{
+	font-weight: bold;
+	font-size: 1.2em;
+	line-height: 0;
+	color: #333;
+}
+
+#pageTitle
+{
+	padding: 20px 10px;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+#chapter, #dashboard, #commentSection > *, #containerForm > *, #profile
+{
+	padding: 10px;
+}
+
 @media all and (max-width: 768px)
 {
-	.container
+	body
+	{
+		font-size: 1.2em;
+	}
+
+	section
 	{
 		max-width: unset;
+	}
+
+	.container
+	{
 		width: 100%;
-	}
-
-	article, #noChapter, #dashboard
-	{
-		width: unset;
-	}
-
-	#pageTitle
-	{
-		width: unset;
 	}
 }
 
@@ -223,6 +254,12 @@ aside > div
 {
 	margin: 0 0 15px 15px;
 	padding: 5px 10px;
+}
+
+#profil > *
+{	
+	display: inline-block;
+	margin: 0 auto 10px auto;
 }
 
 .excerpt
@@ -257,11 +294,6 @@ aside > div
   ########################### CHAPTER PAGE ###########################
   ####################################################################*/
 
-#chapter, #dashboard
-{
-	padding: 10px;
-}
-
 .firstLine, #nextAndPrevious
 {
 	display: flex;
@@ -271,15 +303,11 @@ aside > div
 
 #nextAndPrevious
 {
-	width: 70%;
 	margin: 15px auto;
 }
 
-#commentSection, #containerForm
+#commentSection > *, #containerForm > *
 {
-	
-	width: 70%;
-	padding: 10px;
 	margin: 15px auto;
 }
 
