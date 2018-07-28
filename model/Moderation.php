@@ -5,11 +5,17 @@
  */
 class Moderation extends Entity
 {
+    protected $id;
     protected $moderationMessage;
 
-    public function getModerationMessage()
+    public function getId() {return $this->id;}
+    public function getModerationMessage() {return $this->moderationMessage;}
+
+    public function setId($id)
     {
-    	return $this->moderationMessage;
+        $id = (int) $id;
+
+        $this->id = $id;
     }
 
     public function setModerationMessage($moderationMessage)

@@ -320,9 +320,21 @@ aside > div
   ########################### CHAPTERS PAGE ###########################
   #####################################################################*/
 
+.chaptersPage
+{
+	position: relative;
+	margin: 15px 0;
+}
+
 .notPublished
 {
 	background-color: rgba(200, 200, 255, 0.3);
+}
+
+.chapterNumber
+{
+	margin-top: 25px;
+	padding: 35px 0;
 }
 
 form
@@ -346,6 +358,13 @@ form
 	padding: 10px;
 }
 
+.newPage
+{	
+	position: absolute;
+	right: 0;
+	top: 15px;
+}
+
 @media all and (max-width: 768px)
 {
 	.chapters
@@ -356,6 +375,13 @@ form
 	.chapter
 	{
 		width: unset;
+	}
+
+	.newPage
+	{
+		position: unset;
+		display: inline-block;
+		margin: 0 auto;
 	}
 }
 

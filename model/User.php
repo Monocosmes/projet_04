@@ -42,8 +42,17 @@ class User extends Entity
     			{
     				$_SESSION['errors'][] = 'Votre identifiant doit comporter entre 4 et 30 caractères.';
     			}
-    			
-    			$this->login = $login;
+    			else
+                {
+                    if(preg_match('#^[a-zA-Z0-9_-]{4,30}$#', $login))
+                    {                        
+                        $this->login = $login;
+                    }
+                    else
+                    {
+                        $_SESSION['errors'][] = 'Les caractères spéciaux autorisés pour l\'identifiant sont _ et -';
+                    }
+                }    			
     		}
     		else
     		{

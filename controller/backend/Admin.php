@@ -15,8 +15,8 @@ class Admin
             'content' => $_POST['content'],
             'published' => $_POST['published']
         ]);
-        
-        if($chapter->isValid($chapter->getChapterNumber()) AND $chapter->isValid($chapter->getTitle()) AND $chapter->isValid($chapter->getContent()) AND $chapter->isValid($chapter->getAuthorId))
+
+        if($chapter->isValid($chapter->getChapterNumber()) AND $chapter->isValid($chapter->getTitle()) AND $chapter->isValid($chapter->getContent()) AND $chapter->isValid($chapter->getAuthorId()))
     	{
     		$chapterManager = new ChapterManager();
             $chapterId = $chapterManager->addChapter($chapter);
@@ -190,6 +190,17 @@ class Admin
 
         $elements = ['footer' => $footer];
 
+        if($params != null)
+        {
+            extract($params);
+
+            $chapterManager = new ChapterManager();
+            $chapter = $chapterManager->getChapter($chapterId);
+
+            $_SESSION['chapterNumber'] = $chapter->getChapterNumber();
+            $_SESSION['title'] = $chapter->getTitle();
+        }        
+
         $myView = new View('admin/writeChapter');
         $myView->render($elements);
     }
@@ -199,7 +210,7 @@ class Admin
         extract($params);
 
         $userManager = new UserManager();
-        $userManager->lockAccount($userId, 0);
+        $userManager->lockAccount($userId, (int) 0);
 
         $myView = new View();
         $myView->redirect('profile/userId/'.$userId);

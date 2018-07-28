@@ -117,12 +117,7 @@ class Home
     	$chapter = $chapterManager->getChapter($chapterId);
 
     	$moderationManager = new ModerationManager();
-        $moderations = $moderationManager->getMessages();
-
-        foreach($moderations as $moderation)
-        {
-            $_SESSION['moderate'][] = $moderation->getModerationMessage();
-        }        
+        $moderations = $moderationManager->getMessages();                
 
     	if($chapter)
 		{
@@ -133,7 +128,7 @@ class Home
     	$commentManager = new CommentManager();
     	$comments = $commentManager->getAllComments($chapterId);
 
-    	$elements = ['chapter' => $chapter, 'comments' => $comments, 'footer' => $footer];
+    	$elements = ['chapter' => $chapter, 'comments' => $comments, 'moderations' => $moderations, 'footer' => $footer];
 
     	$myView = new View('chapter');
 		$myView->render($elements);

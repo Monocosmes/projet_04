@@ -27,7 +27,6 @@ class View
 
 		unset($_SESSION['errors']);
         unset($_SESSION['message']);
-		unset($_SESSION['moderate']);
 		unset($_SESSION['chapterNumber']);
 		unset($_SESSION['title']);
 		unset($_SESSION['content']);
@@ -61,6 +60,14 @@ class View
         {
             return '<a class="button" href="'.HOST.'deleteComment/chapterId/'.$comment->getChapterId().'/commentId/'.$comment->getId().'">Supprimer</a>';
         }
+    }
+
+    public function displayAddPageButton($chapter)
+    {
+        if(isset($_SESSION['rank']) AND $_SESSION['rank'] > 3)
+        {
+            return '<a class="button newPage" href="'.HOST.'writeChapter.html/chapterId/'.$chapter->getId().'">Ajouter une page au chapitre '.$chapter->getChapterNumber().'</a>';
+        }        
     }
 
     public function displayComment($comment)
