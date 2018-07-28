@@ -18,7 +18,7 @@
 	
 		<h2>Ajouter de nouvelles phrases pour la modération</h2>
 	
-		<form id="containerForm" method="post" action="addModerationMessage">
+		<form method="post" action="addModerationMessage">
 			<label for="moderationMessage">Phrase de modération</label>
 			<input type="text" name="moderationMessage" id="moderationMessage">
 			<div class="buttons">

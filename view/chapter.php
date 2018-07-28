@@ -42,10 +42,10 @@
 							<select name="moderationId" id="moderationId">
 								<option>Sélectionnez une raison...</option>
 								<option value="-1">Retirer la modération</option>
-
-								<?php for($i = 0; $i < count($_SESSION['moderate']); $i++) :?>
-									<option value="<?= $i + 1 ?>"><?= htmlspecialchars($_SESSION['moderate'][$i]) ?></option>
-								<?php endfor ?>
+								
+								<?php foreach($moderations as $moderation) :?>
+									<option value="<?= $moderation->getId() ?>"><?= htmlspecialchars($moderation->getModerationMessage()) ?></option>
+								<?php endforeach ?>
 
 							</select>
 

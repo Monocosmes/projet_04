@@ -6,19 +6,32 @@
 	<h2 id="pageTitle" class="uppercase mainBorder mainBgColor center">Chapitres</h2>
 
 	<?php if($chapters) :?>
-		<div class="mainBgColor mainBorder">
+		<div>
 			<?php foreach($chapters as $chapter) :?>				
 				<?php if($chapterNumber != $chapter->getChapterNumber()) :?>
 		
 					<?php if($count) :?>
+							</div>
 						</div>
 					<?php endif ?>
 		
 					<?php $chapterNumber = $chapter->getChapterNumber(); ?>
 					<?php $count = true; ?>
-		
-					<h2 class="chapterNumber">Chapitre <?= htmlspecialchars($chapter->getChapterNumber()) ?> - <a href="<?= HOST.'chapter.html/chapterId/'.$chapter->getId() ?>"><?= htmlspecialchars($chapter->getTitle()) ?></a></h2>
-					<div class="chapters">
+
+					<div class="chaptersPage mainBgColor mainBorder">
+
+						<h2 class="chapterNumber">
+							Chapitre <?= htmlspecialchars($chapter->getChapterNumber()) ?> - 
+							<a href="<?= HOST.'chapter.html/chapterId/'.$chapter->getId() ?>">
+								<?= htmlspecialchars($chapter->getTitle()) ?>
+							</a>
+						</h2>
+	
+						<div class="buttons">
+							<?= $this->displayAddPageButton($chapter) ?>
+						</div>
+	
+						<div class="chapters">
 		
 				<?php endif ?>
 	
@@ -36,8 +49,9 @@
 						<?= $this->editChapterButton($chapter) ?>
 						<?= $this->deleteChapterButton($chapter) ?>
 					</div>
-				</div>			
+				</div>
 			<?php endforeach ?>
+				</div>
 			</div>
 		</div>
 	<?php else :?>
