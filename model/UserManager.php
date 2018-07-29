@@ -88,5 +88,15 @@ class UserManager extends Manager
         $req->bindValue(':id', $id, PDO::PARAM_INT);
 
         $req->execute();
-    }    
+    }
+
+    public function updateProfile(User $user, $addPass)
+    {
+        $req = $this->db->prepare('UPDATE user SET login = :login, email = :email'.$addPass.'WHERE id = :id');
+        $req->bindValue(':login', $user->getLogin());
+        $req->bindValue(':email', $user->getEmail());
+        if($addPass) $req->bindValue(':password', $user->getCryptedPassword());
+        $req->bindValue(':id', $user->getId(), PDO::PARAM_INT);
+        $req->execute();
+    }
 }

@@ -159,6 +159,39 @@ class Home
 		$myView->render($elements);
     }
 
+    public function showContact($params)
+    {
+        $footer = new Footer();
+        $elements = ['footer' => $footer];
+
+        $myView = new View('contact');
+        $myView->render($elements);
+    }
+
+    public function showEditProfile($params)
+    {
+        extract($params);
+
+        if($userId == $_SESSION['id'] OR $_SESSION['rank'] > 4)
+        {
+            $footer = new Footer();
+            $userManager = new UserManager();
+            $user = $userManager->getUser((int) $userId);
+    
+            $elements = ['user' => $user, 'footer' => $footer];
+    
+            $myView = new View('editProfile');
+            $myView->render($elements);
+        }
+        else
+        {
+            $_SESSION['errors'][] = 'Vous n\'avez pas les droits pour afficher cette page';
+
+            $myView = new View();
+            $myView->redirect('home.html');
+        }
+    }
+
     public function showHome($params)
     {
 		$footer = new Footer();
@@ -192,5 +225,80 @@ class Home
         $myView = new View('profile');
         $myView->render($elements);
     }
+
+    public function updateProfile($params)
+    {
+        $errorLogin = null;
+        $errorEmail = null;
+        $isPasswordsMatch = 1;
+        $passwordLenght = 1;
+        $isOldPassValid = 1;
+
+        if(isset($_POST['userId']) AND $_POST['userId'] == $_SESSION['id'] OR $_SESSION['rank'] > 4)
+        {
+            $userId = (int) $_POST['userId'];
+
+            $userManager = new UserManager();
+            $user = $userManager->getUser((int) $userId);
+    
+            $newLogin = (isset($_POST['login']) AND $_SESSION['rank'] > 4)?$_POST['login']:null;
+
+            if($newLogin AND $newLogin != $user->getLogin())
+            {
+                $errorLogin = $userManager->isUserExists($newLogin);
+                $user->setLogin($newLogin);
+            }
+    
+            if(!empty($_POST['password']) AND !empty($_POST['passwordMatch']) AND !empty($_POST['oldPassword']))
+            {
+                $isOldPassValid = $user->isPasswordValid($_POST['oldPassword']);
+
+                $user->setPassword($_POST['password']);
+
+                $passwordLenght = $user->checkPasswordLenght();
+                $isPasswordsMatch = $user->isPasswordsMatch($_POST['passwordMatch']);
+            }
+
+            $email = mb_strtolower($_POST['email']);
+    
+            if($email != $user->getEmail())
+            {
+                $errorEmail = $userManager->isUserExists($email);
+
+                $user->setEmail($email);
+            }
+
+            if(!$errorLogin AND $isOldPassValid AND $passwordLenght AND $isPasswordsMatch AND !$errorEmail)
+            {
+                if($user->isValid($user->getLogin()) AND $user->isValid($user->getPassword()) AND $user->isValid($user->getEmail()))
+                {
+                    $addPass = ($isOldPassValid)?', password = :password ':'';
+
+                    $userManager->updateProfile($user, $addPass);
+
+                    $_SESSION['message'] = 'Le profil a bien été modifié';
+
+                    $myView = new View();
+                    $myView->redirect('profile/userId/'.$userId);
+                }
+                else
+                {
+                    $myView = new View();
+                    $myView->redirect('editProfile/userId/'.$userId);
+                }
+            }
+            else
+            {
+                $myView = new View();
+                $myView->redirect('editProfile/userId/'.$userId);
+            }
+        }
+        else
+        {
+            $_SESSION['errors'][] = 'Vous n\'avez pas les droits pour afficher cette page';
+
+            $myView = new View();
+            $myView->redirect('home.html');
+        }
+    }
 }
-	
