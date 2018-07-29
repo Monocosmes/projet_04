@@ -42,9 +42,9 @@
 						
 					<?= substr($chapter->getContent(), 0, 200).'...' ?>
 
-					<p><a href="<?= HOST.'chapter.html/chapterId/'.$chapter->getId() ?>">Lire la suite</a></p>
-					<p>Ce billet a été commenté <?= htmlspecialchars($chapter->getCommentNumber()) ?> fois</p>
-					<div class="buttons">
+					<p><a href="<?= HOST.'chapter.html/chapterId/'.$chapter->getId() ?>">Lire la suite</a>  <span class="rightText">Ce billet a été commenté <?= htmlspecialchars($chapter->getCommentNumber()) ?> fois</span></p>
+					<p></p>
+					<div id="chaptersButtons" class="buttons">
 						<?= $this->publishChapter($chapter) ?>
 						<?= $this->editChapterButton($chapter) ?>
 						<?= $this->deleteChapterButton($chapter) ?>

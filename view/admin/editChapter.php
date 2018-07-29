@@ -7,11 +7,11 @@
 			<input type="hidden" name="author" value="<?= (isset($_SESSION['isLogged']))?htmlspecialchars($_SESSION['id']):'' ?>" />
 			<input type="text" disabled="true" value="<?= htmlspecialchars($_SESSION['login']) ?>">
 			<label for="chapterNumber">Numéro du chapitre</label>
-			<input type="text" name="chapterNumber" id="chapterNumber" value="<?= htmlspecialchars($chapter->getChapterNumber()) ?>">
+			<input type="text" name="chapterNumber" id="chapterNumber" value="<?= (isset($_SESSION['chapterNumber']))?htmlspecialchars($_SESSION['chapterNumber']):htmlspecialchars($chapter->getChapterNumber()); ?>">
 			<label for="title">Titre du chapitre</label>
-			<input type="text" name="title" id="title" value="<?= htmlspecialchars($chapter->getTitle()) ?>" />
+			<input type="text" name="title" id="title" value="<?= (isset($_SESSION['title']))?htmlspecialchars($_SESSION['title']):htmlspecialchars($chapter->getTitle()); ?>" />
 			<label for="content">Article</label>
-			<textarea name="content" id="content"><?= $chapter->getContent() ?></textarea>
+			<textarea name="content" id="content"><?= (isset($_SESSION['content']))?$_SESSION['content']:$chapter->getContent(); ?></textarea>
 			<div class="buttons">
 				<button class="button" type="submit" name="published" value="1">Publier</button>
 				<button class="button" type="submit" name="published" value="0">Enregistrer</button>

@@ -96,6 +96,8 @@ class Admin
             'moderationId' => (int) $_POST['moderationId'],
         ]);
 
+        $myView = new View();
+
         if($comment->isValid($comment->getId()) AND $comment->isValid($comment->getChapterId()) AND $comment->isValid($comment->getModerationId()))
         {
             $num = 1;
@@ -108,12 +110,10 @@ class Admin
             $commentManager = new CommentManager();
             $commentManager->moderateComment($comment, $num);
 
-            $myView = new View();
             $myView->redirect('chapter.html/chapterId/'.$comment->getChapterId().'#c-'.$comment->getId());
         }
         else
-        {
-            $myView = new View();
+        {            
             $myView->redirect('chapter.html/chapterId/'.$comment->getChapterId());
         }
     }
@@ -239,17 +239,26 @@ class Admin
             'title' => $_POST['title'],
             'content' => $_POST['content'],
             'published' => $_POST['published']
-        ]);
+        ]);        
 
+        $myView = new View();
+        
         if($chapter->isValid($chapter->getId()) AND $chapter->isValid($chapter->getAuthorId()) AND $chapter->isValid($chapter->getChapterNumber()) AND $chapter->isValid($chapter->getTitle()) AND $chapter->isValid($chapter->getContent()) AND $chapter->isValid($chapter->getPublished()))
         {
             $chapterManager = new ChapterManager();
             $chapterManager->updateChapter($chapter);
 
             $_SESSION['message'] = 'Le billet a bien été modifié';
-        }
 
-        $myView = new View();
-        $myView->redirect('chapter.html/chapterId/'.$chapter->getId());
+            $myView->redirect('chapter.html/chapterId/'.$chapter->getId());
+        }
+        else
+        {
+            $_SESSION['chapterNumber'] = $_POST['chapterNumber'];
+            $_SESSION['title'] = $_POST['title'];
+            $_SESSION['content'] = $_POST['content'];            
+
+            $myView->redirect('editChapter.html/chapterId/'.$chapter->getId());
+        }        
     }
 }

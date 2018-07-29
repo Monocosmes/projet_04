@@ -48,7 +48,7 @@ class ChapterManager extends Manager
         $req->bindValue(':chapterNumber', $chapter->getChapterNumber(), PDO::PARAM_INT);
     	$req->bindValue(':title', $chapter->getTitle());
     	$req->bindValue(':content', $chapter->getContent());
-    	$req->bindValue(':published', $chapter->getPublished());
+    	$req->bindValue(':published', (int) $chapter->getPublished(), PDO::PARAM_INT);
     	$req->bindValue(':id', $chapter->getId(), PDO::PARAM_INT);
 
     	$req->execute();
