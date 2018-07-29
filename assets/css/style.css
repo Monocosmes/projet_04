@@ -217,7 +217,7 @@ a
 	text-align: center;
 }
 
-#chapter, #dashboard, #commentSection > *, #containerForm > *, #profile
+#chapter, #dashboard, #commentSection > *, #containerForm > *, #profile, #contact
 {
 	padding: 10px;
 }
@@ -358,7 +358,7 @@ form
 	padding: 10px;
 }
 
-.newPage
+.newPage, #profileButtons
 {	
 	position: absolute;
 	right: 0;
@@ -393,4 +393,25 @@ form
 #content
 {
 	min-height: 400px;
+}
+
+/*####################################################################
+  ########################### PROFILE PAGE ###########################
+  ####################################################################*/
+
+#profile
+{
+	position: relative;
+}
+
+#profileButtons
+{
+	display: flex;
+	flex-direction: column;
+}
+
+#profileButtons > *
+{
+	margin-bottom: 15px;
+	text-align: center;
 }

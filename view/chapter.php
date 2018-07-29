@@ -1,4 +1,4 @@
-<?php $pageTitle = 'Blog de Jean Laroche - '.$chapter->getTitle(); ?>
+<?php $pageTitle = 'Blog de Jean Forteroche - '.$chapter->getTitle(); ?>
 
 <section class="container">
 	

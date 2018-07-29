@@ -1,4 +1,4 @@
-<?php $pageTitle = 'Blog de Jean Laroche'; ?>
+<?php $pageTitle = 'Blog de Jean Forteroche'; ?>
 
 <section class="container">
 

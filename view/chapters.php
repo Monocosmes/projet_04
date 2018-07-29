@@ -1,4 +1,4 @@
-<?php $pageTitle = 'Tous les chapitres du "Dernier billet pour l\'Alaska", le dernier livre de Jean Laroche'; ?>
+<?php $pageTitle = 'Tous les chapitres du "Dernier billet pour l\'Alaska", le dernier livre de Jean Forteroche'; ?>
 <?php $chapterNumber = 0; $count = false; ?>
 
 <section>

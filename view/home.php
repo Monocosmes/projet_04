@@ -1,4 +1,4 @@
-<?php $pageTitle = 'Blog de Jean Laroche - Dernier billet pour l\'Alaska'; ?>
+<?php $pageTitle = 'Blog de Jean Forteroche - Dernier billet pour l\'Alaska'; ?>
 
 <section>
 
@@ -39,7 +39,7 @@
 			<div class="mainBgColor mainBorder">
 				<h2>A propos de l'auteur</h2>
 				<p>
-					Jean Laroche est un poète et écrivain. Il est notamment l'auteur d'<strong>Impasse Bleue</strong> ou encore <strong>Le Roncier de mémoire</strong>.
+					Jean Forteroche est un acteur et écrivain. Il est notamment l'auteur de <strong>La danse des ombres</strong> ou encore <strong>Trois jours et une vie</strong>.
 					<br />
 					Sur ce blog, découvrez son dernier livre, <strong>Dernier billet pour l'Alaska</strong>, chapitre par chapitre. Une nouvelle expérience qui vous emportera dans les terres sauvages et glacées de l'Alaska.
 				</p>
