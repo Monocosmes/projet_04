@@ -172,6 +172,12 @@ a
 	color: #fff;
 }
 
+.rightText
+{
+	float: right;
+	margin-bottom: 100px;
+}
+
 .buttons
 {
 	margin: 25px 0;
@@ -352,10 +358,12 @@ form
 
 .chapter
 {
+	position: relative;
 	border: 1px black solid;
 	width: 30%;
 	margin: 15px auto;
 	padding: 10px;
+	word-wrap: break-word;
 }
 
 .newPage, #profileButtons
@@ -363,6 +371,13 @@ form
 	position: absolute;
 	right: 0;
 	top: 15px;
+}
+
+#chaptersButtons
+{
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }
 
 @media all and (max-width: 768px)
